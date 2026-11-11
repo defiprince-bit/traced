@@ -658,3 +658,34 @@ table.cov{width:100%;border-collapse:collapse;font-size:var(--text-sm)}
   .honest-panel{padding:20px 16px 32px}
   .landing .hcov{padding:8px 20px 48px}
 }
+
+/* start screen + latch replay (v3) */
+.start{display:flex;flex-direction:column;gap:18px;max-width:920px;padding:0 0 32px}
+.start .lede{max-width:640px}
+.start .lede h2{font:500 var(--text-xl)/1.15 var(--font-display);letter-spacing:-.025em;margin:8px 0}
+.start .lede p{margin:0;color:var(--fg-2);font-size:var(--text-sm);line-height:1.5;max-width:560px}
+.start .lookup{min-width:0;width:100%;max-width:720px;padding:4px}
+.start .lookup-lg .cid .hash{font-size:22px}
+.start .lookup-lg .cid input{font-size:20px}
+.start .lookup-lg .btn{height:48px}
+.start-note{max-width:560px}
+.demo-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.demo-card{display:flex;flex-direction:column;gap:8px;padding:16px 18px 14px;border:1px solid var(--hairline);border-radius:var(--r-lg);background:var(--panel);text-decoration:none;color:inherit;min-height:0;transition:transform var(--d-fast) var(--ease-out),border-color var(--d-fast) var(--ease-out)}
+.demo-card:hover{border-color:var(--lume);transform:translateY(-2px);box-shadow:var(--glow-lume)}
+.demo-card .mono{color:var(--lume);font-weight:600}
+.demo-card b{font:500 var(--text-lg)/1.25 var(--font-display);letter-spacing:-.015em}
+.demo-card p{margin:0;color:var(--fg-2);font-size:var(--text-sm);line-height:1.45}
+.demo-card .go{margin-top:auto;padding-top:8px;font:500 var(--text-2xs)/1 var(--font-mono);letter-spacing:var(--track-label);text-transform:uppercase;color:var(--lume)}
+.bitrow{display:inline-flex;gap:3px;justify-content:center;vertical-align:middle}
+.latch-block{margin-top:18px}
+.latch-block .card-h h2{font-size:var(--text-md)}
+@media (max-width:767px){
+  .start{padding:0 0 12px;gap:16px}
+  .start .lookup{flex-direction:column}
+  .start .lookup .proc{border-right:0;border-bottom:1px solid var(--hairline);padding:10px;min-width:0}
+  .start .lookup .proc .label,.start .lookup .proc .mono{display:revert}
+  .start .lookup .cid{padding:14px 10px}
+  .start .lookup .btn{width:100%;height:48px}
+  .demo-grid{grid-template-columns:1fr}
+  .demo-card{min-height:0}
+}

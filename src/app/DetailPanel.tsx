@@ -53,8 +53,10 @@ export function DetailPanel({ ix, model }: { ix: LoadedIndex; model: CircuitMode
       </div>
       {pins && (
         <div className="mini">
-          <span className="t"><b>Replay</b>{pins.nState ? 'Has latches, so eval() can’t replay it in this MVP.' : `${pins.nIn} inputs → ${pins.nIn <= 8 ? 1 << pins.nIn : 'sampled'} rows. Free, in your browser.`}</span>
-          {!pins.nState && <a className="btn btn-lume btn-sm" href={toHash({ cpu, id, vs: model.group?.original && !isOriginal ? model.group.original[1] : null, view: 'replay' })}>Replay</a>}
+          <span className="t"><b>Replay</b>{pins.nState
+            ? `${pins.nState} state bits · free step() view calls vs a local simulator.`
+            : `${pins.nIn} inputs → ${pins.nIn <= 8 ? 1 << pins.nIn : 'sampled'} rows. Free, in your browser.`}</span>
+          <a className="btn btn-lume btn-sm" href={toHash({ cpu, id, vs: model.group?.original && !isOriginal ? model.group.original[1] : null, view: 'replay' })}>Replay</a>
         </div>
       )}
       <HonestNote />

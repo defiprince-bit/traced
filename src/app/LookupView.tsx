@@ -6,6 +6,7 @@ import { HonestNote } from '../ui/HonestNote';
 import { FamilyTree } from './FamilyTree';
 import { LineageList } from './LineageList';
 import { ReplayTable, replayOptions } from './ReplayTable';
+import { LatchReplay } from './LatchReplay';
 import { IconCheck } from '../ui/icons';
 import { short, num, summarize } from '../lib/format';
 import { circuitName } from '../lib/names';
@@ -101,9 +102,11 @@ export function LookupView({ ix, model, vs }: { ix: LoadedIndex; model: CircuitM
         <section className="card">
           <div className="card-h"><h2>Replay</h2><span className="label">free · in your browser</span></div>
           <div className="card-b">
-            {pins && !pins.nState
+            {pins && pins.nState
+              ? <LatchReplay subject={{ cpu, id, label: `#${id}`, nIn: pins.nIn, nOut: pins.nOut, nState: pins.nState }} against={against} againstNote={againstNote} auto={!!against} netlist={model.live?.netlist ?? null} />
+              : pins
               ? <ReplayTable subject={{ cpu, id, label: `#${id}`, nIn: pins.nIn, nOut: pins.nOut, nState: pins.nState }} against={against} againstNote={againstNote} auto={!!against} />
-              : <p className="foot">{pins?.nState ? 'Has latches, so eval() can’t replay it in this MVP.' : 'Waiting for pins…'}</p>}
+              : <p className="foot">Waiting for pins…</p>}
           </div>
         </section>
 

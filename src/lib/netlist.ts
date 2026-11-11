@@ -12,10 +12,16 @@ export interface RefElement {
   ins: number[];
 }
 
+export type NetlistElement =
+  | { tag: 'nand'; a: number; b: number }
+  | { tag: 'latch'; d: number }
+  | { tag: 'ref'; cpu: `0x${string}`; id: number; nIn: number; nOut: number; ins: number[] };
+
 export interface DecodedNetlist {
   nand: number;
   latch: number;
   refs: RefElement[];
+  elements: NetlistElement[];
   bytes: number;
   error: string | null;
 }
@@ -32,17 +38,19 @@ const u24 = (b: Uint8Array, o: number) => (b[o] << 16) | (b[o + 1] << 8) | b[o +
 
 export function decodeNetlist(hex: string): DecodedNetlist {
   const b = hexToBytes(hex);
-  const res: DecodedNetlist = { nand: 0, latch: 0, refs: [], bytes: b.length, error: null };
+  const res: DecodedNetlist = { nand: 0, latch: 0, refs: [], elements: [], bytes: b.length, error: null };
   let o = 0;
   while (o < b.length) {
     const tag = b[o];
     if (tag === 0x00) {
       if (o + 7 > b.length) return { ...res, error: `truncated NAND at byte ${o}` };
       res.nand++;
+      res.elements.push({ tag: 'nand', a: u24(b, o + 1), b: u24(b, o + 4) });
       o += 7;
     } else if (tag === 0x01) {
       if (o + 4 > b.length) return { ...res, error: `truncated LATCH at byte ${o}` };
       res.latch++;
+      res.elements.push({ tag: 'latch', d: u24(b, o + 1) });
       o += 4;
     } else if (tag === 0x02) {
       if (o + 31 > b.length) return { ...res, error: `truncated REF at byte ${o}` };
@@ -56,7 +64,9 @@ export function decodeNetlist(hex: string): DecodedNetlist {
       if (end > b.length) return { ...res, error: `truncated REF inputs at byte ${o}` };
       const ins: number[] = [];
       for (let k = 0; k < nIn; k++) ins.push(u24(b, o + 31 + k * 3));
-      res.refs.push({ cpu: cpu as `0x${string}`, id: Number(id), nIn, nOut, ins });
+      const ref: RefElement = { cpu: cpu as `0x${string}`, id: Number(id), nIn, nOut, ins };
+      res.refs.push(ref);
+      res.elements.push({ tag: 'ref', ...ref });
       o = end;
     } else {
       return { ...res, error: `unknown tag 0x${tag.toString(16)} at byte ${o}` };

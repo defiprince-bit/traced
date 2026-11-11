@@ -18,7 +18,7 @@ const NAV = [
   { href: '#honesty', label: 'Honesty' },
 ];
 
-const OPEN = toHash({ cpu: CEREBR, id: 5, vs: 4, view: 'lookup' });
+const OPEN = toHash({ cpu: CEREBR, id: null, vs: null, view: null });
 
 const PREVIEWS = {
   lineage: { src: `${import.meta.env.BASE_URL}previews/lineage-12.png`, m: `${import.meta.env.BASE_URL}previews/lineage-12-m.png`, href: toHash({ cpu: CEREBR, id: 12, vs: null, view: 'lineage' }), crumb: 'traced / lineage / cerebr #12' },

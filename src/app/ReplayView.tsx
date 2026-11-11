@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import type { LoadedIndex } from '../useIndex';
 import type { CircuitModel } from './useCircuit';
 import { ReplayTable, replayOptions } from './ReplayTable';
+import { LatchReplay } from './LatchReplay';
 import { HonestNote } from '../ui/HonestNote';
 import { VerdictTag } from '../ui/VerdictTag';
 import { circuitName } from '../lib/names';
@@ -22,7 +23,7 @@ export function ReplayView({ ix, model, vs, onVs }: { ix: LoadedIndex; model: Ci
   return (
     <div className="rp-wrap">
       <section className="card rp-big">
-        <div className="card-h"><h2>Truth table</h2><span className="label">{pins.nIn} inputs · {pins.nIn <= 8 ? 1 << pins.nIn : 16} rows · free</span></div>
+        <div className="card-h"><h2>{pins.nState ? 'Step replay' : 'Truth table'}</h2><span className="label">{pins.nState ? `${pins.nState} state · ${pins.nIn} in → ${pins.nOut} out · free step()` : `${pins.nIn} inputs · ${pins.nIn <= 8 ? 1 << pins.nIn : 16} rows · free eval()`}</span></div>
         <div className="card-b">
           <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 12 }}>
             <label className="cmp">vs
@@ -39,13 +40,22 @@ export function ReplayView({ ix, model, vs, onVs }: { ix: LoadedIndex; model: Ci
               <button className="btn btn-sm" type="submit">Set</button>
             </form>
           </div>
-          <ReplayTable
-            subject={{ cpu, id, label: `#${id}`, nIn: pins.nIn, nOut: pins.nOut, nState: pins.nState }}
-            against={against}
-            againstNote={note}
-            auto
-            big
-          />
+          {pins.nState
+            ? <LatchReplay
+                subject={{ cpu, id, label: `#${id}`, nIn: pins.nIn, nOut: pins.nOut, nState: pins.nState }}
+                against={against}
+                againstNote={note}
+                auto
+                big
+                netlist={model.live?.netlist ?? null}
+              />
+            : <ReplayTable
+                subject={{ cpu, id, label: `#${id}`, nIn: pins.nIn, nOut: pins.nOut, nState: pins.nState }}
+                against={against}
+                againstNote={note}
+                auto
+                big
+              />}
         </div>
       </section>
       <aside className="card detail">
@@ -54,8 +64,12 @@ export function ReplayView({ ix, model, vs, onVs }: { ix: LoadedIndex; model: Ci
           {silent && isOriginal && <VerdictTag kind="orig" />}
           <span className="label" style={{ marginLeft: 'auto' }}>{against ? `vs #${against.id}` : 'solo'}</span>
         </div>
-        <h3>{against ? 'Compare outputs, row by row.' : 'A free truth table, from eval().'}</h3>
-        <p>Every row is one read-only <span className="mono">eval()</span> view call on X Layer. Nothing is signed or sent.</p>
+        <h3>{pins.nState
+          ? (against ? 'Compare step() rows: on-chain vs local, and vs the other circuit.' : 'A free step() replay, on-chain vs this browser.')
+          : (against ? 'Compare outputs, row by row.' : 'A free truth table, from eval().')}</h3>
+        <p>{pins.nState
+          ? <>Each row is a read-only <span className="mono">step()</span> view call plus a local simulation. Nothing is signed or sent.</>
+          : <>Every row is one read-only <span className="mono">eval()</span> view call on X Layer. Nothing is signed or sent.</>}</p>
         <HonestNote />
       </aside>
     </div>

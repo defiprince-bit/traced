@@ -18,3 +18,25 @@ describe('hash routes', () => {
     expect(parseHash('#cta').id).toBeNull();
   });
 });
+
+import { isAppRoute } from '../src/route';
+
+describe('start-screen routing', () => {
+  it('treats #/<cpu> with no id as an app route (the first-run screen)', () => {
+    expect(isAppRoute(`#/${CEREBR}`)).toBe(true);
+    expect(isAppRoute(`#/${CEREBR}/`)).toBe(true);
+    expect(parseHash(`#/${CEREBR}`)).toEqual({ cpu: CEREBR, id: null, vs: null, view: null, landing: null });
+    expect(toHash({ cpu: CEREBR, id: null, vs: null, view: null })).toBe(`#/${CEREBR}`);
+  });
+  it('keeps landing hashes off the app route', () => {
+    expect(isAppRoute('')).toBe(false);
+    expect(isAppRoute('#story')).toBe(false);
+    expect(isAppRoute('#top')).toBe(false);
+  });
+  it('still parses a circuit id after the start-screen form', () => {
+    expect(parseHash(`#/${CEREBR}/14?view=replay`)).toEqual({
+      cpu: CEREBR, id: 14, vs: null, view: 'replay', landing: null,
+    });
+    expect(toHash({ cpu: CEREBR, id: 14, vs: 35, view: 'replay' })).toBe(`#/${CEREBR}/14?vs=35&view=replay`);
+  });
+});

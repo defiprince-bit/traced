@@ -11,7 +11,8 @@ import { Coverage } from '../ui/Coverage';
 import { short, num } from '../lib/format';
 import { CopyView } from './CopyView';
 import { ReplayView } from './ReplayView';
-import { LoadingState, NotFoundState, ErrorState, EmptyLookup } from './States';
+import { LoadingState, NotFoundState, ErrorState } from './States';
+import { StartScreen } from './StartScreen';
 
 function defaultView(route: Route, twinCount: number): AppView {
   if (route.view) return route.view;
@@ -62,14 +63,14 @@ export default function AppShell({ ix, route, go }: { ix: LoadedIndex; route: Ro
 
   const title = (
     <h1>
-      {VIEW_TITLE[view]}
+      {route.id == null ? 'Look up a circuit' : VIEW_TITLE[view]}
       {route.id != null && <> <span className="mono">#{route.id}</span></>}
-      {view === 'replay' && route.vs != null && <> vs <span className="mono">#{route.vs}</span></>}
+      {view === 'replay' && route.id != null && route.vs != null && <> vs <span className="mono">#{route.vs}</span></>}
     </h1>
   );
 
   let body: React.ReactNode;
-  if (route.id == null) body = <EmptyLookup />;
+  if (route.id == null) body = <StartScreen ix={ix} cpu={cpu} onTrace={onTrace} />;
   else if (model.loading && !model.rec && !model.live) body = <LoadingState id={route.id} />;
   else if (model.notFound) body = <NotFoundState cpuName={cpuName} id={route.id} />;
   else if (model.err && !model.live && !model.rec) body = <ErrorState err={model.err} onRetry={() => go({ ...route })} />;
@@ -109,7 +110,7 @@ export default function AppShell({ ix, route, go }: { ix: LoadedIndex; route: Ro
             <DepthToggle up={upDepth} down={downDepth} setUp={setUpDepth} setDown={setDownDepth} />
             <LineageToggle list={list} setList={setList} />
           </>}
-          <div className="r"><LookupBar ix={ix} cpu={cpu} id={route.id} onTrace={onTrace} /></div>
+          {route.id != null && <div className="r"><LookupBar ix={ix} cpu={cpu} id={route.id} onTrace={onTrace} /></div>}
         </div>
         {model.err && model.rec && <p className="foot" style={{ color: 'var(--copy)' }}>Live read failed: {model.err}. Showing index data.</p>}
         {body}

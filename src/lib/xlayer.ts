@@ -26,6 +26,8 @@ export const circuitsAbi = [
   { type: 'function', name: 'nextId', stateMutability: 'view', inputs: [], outputs: [{ type: 'uint256' }] },
   // selector 0x934d06ea
   { type: 'function', name: 'eval', stateMutability: 'view', inputs: [{ name: 'id', type: 'uint256' }, { name: 'inputs', type: 'bytes' }], outputs: [{ type: 'bytes' }] },
+  // selector 0xe8281a1a
+  { type: 'function', name: 'step', stateMutability: 'view', inputs: [{ name: 'id', type: 'uint256' }, { name: 'state', type: 'bytes' }, { name: 'inputs', type: 'bytes' }], outputs: [{ name: 'newState', type: 'bytes' }, { name: 'outputs', type: 'bytes' }] },
 ] as const;
 
 export interface LiveCircuit {
@@ -54,6 +56,22 @@ export async function nextId(cpu: `0x${string}`): Promise<number> {
 /** Free combinational run. View call: leaves no trace on-chain and costs nothing. */
 export function evalCircuit(cpu: `0x${string}`, id: number, inputs: `0x${string}`): Promise<`0x${string}`> {
   return client.readContract({ address: cpu, abi: circuitsAbi, functionName: 'eval', args: [BigInt(id), inputs] });
+}
+
+/** Free sequential step. View call: leaves no trace on-chain and costs nothing. */
+export async function stepCircuit(
+  cpu: `0x${string}`,
+  id: number,
+  state: `0x${string}`,
+  inputs: `0x${string}`,
+): Promise<{ newState: `0x${string}`; outputs: `0x${string}` }> {
+  const [newState, outputs] = await client.readContract({
+    address: cpu,
+    abi: circuitsAbi,
+    functionName: 'step',
+    args: [BigInt(id), state, inputs],
+  });
+  return { newState, outputs };
 }
 
 export const explorerTx = (tx: string) => `https://www.okx.com/web3/explorer/xlayer/tx/${tx}`;
