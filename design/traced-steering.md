@@ -103,8 +103,8 @@ transitionTimingFunction:{out:'cubic-bezier(.16,1,.3,1)'}
 
 | Component | Props | Notes |
 |---|---|---|
-| `Header` (landing) | `links[]`, `ctaHref` | Sticky, `backdrop-filter: blur(14px)` over `rgba(11,11,11,.72)`, hairline bottom. Mono caps nav, each link prefixed "/ ". Wordmark "Traced" + mono "FOR TAPEOUT". Ghost "Open app" button. Mobile: menu button, sheet. |
-| `AppShell` | `active`, `processor` | 232px floating sidebar (panel, r-xl, hairline): wordmark, lume "New lookup" + "+", nav (Lookup, Lineage, Copy check with count, Replay), processor box, "What we can't see", "X Layer · read-only". ≤767px: sticky top bar + bottom tab bar (4 tabs). |
+| `Header` (landing) | `links[]`, `ctaHref` | Sticky, `backdrop-filter: blur(14px)` over `rgba(11,11,11,.72)`, hairline bottom. Mono caps nav, each link prefixed "/ ". Lockup: chosen mark A (via ring, lume) + "Traced" in Host Grotesk 600 with mono "FOR TAPEOUT" underneath. Ghost "Open app" button. Mobile: menu button, sheet. |
+| `AppShell` | `active`, `processor` | 232px floating sidebar (panel, r-xl, hairline): lockup (mark A + "Traced" / "FOR TAPEOUT"), lume "New lookup" + "+", nav (Lookup, Lineage, Copy check with count, Replay), processor box, "What we can't see", "X Layer · read-only". ≤767px: sticky top bar (compact lockup: mark + "Traced") + bottom tab bar (4 tabs). |
 | `LookupBar` | `processor`, `cid`, `onTrace`, `size: 'md'|'lg'` | Processor select (name + mono symbol) │ "#" + mono input │ lume "Trace". Input `min-width:0; width:100%`. Stacks on mobile (button full width). Enter submits. |
 | `ExampleChips` | `chips: {cid, label, href}[]` | Exactly three on the landing CTA and the not-found state: **#5** "XOR, built from 3 parts", **#4 vs #34** "a silent copy", **#12** "11 REFs". Mono ID in lume, label fg-2. |
 | `Badge` | `cls: 'toy'|'wrapper'|'library'|'miner'|'composed'|'flat'` | DIP-package chip: 2px-pin icon + mono caps label in the class colour, 1px border at 45% of it. `flat` uses a dashed border. Label text for miner is "Miner-sized". Always paired with the rule it came from in the detail panel. |

@@ -16,7 +16,7 @@ rows=[]
 H=3000
 S=Image.new('RGB',(W,H),'#FFFFFF'); D=ImageDraw.Draw(S)
 D.text((60,48),'Traced mark',font=head,fill=INK)
-D.text((60,110),'Douglas\'s reference, retraced, plus three subtle Traced changes. Lume #C8FF6A on #0B0B0B.',font=sub,fill='#5A6058')
+D.text((60,110),'Douglas\'s reference, retraced, plus three subtle Traced changes. Chosen: A, via ring. Lume #C8FF6A on #0B0B0B.',font=sub,fill='#5A6058')
 labels={'ref':('REFERENCE','Douglas\'s jpg, as sent'),'a':('A  VIA RING','dot in the centre hole'),
         'b':('B  SMD PAD','right arm ends in a square pad'),'c':('C  SOURCE VIA','big terminal drilled like a via')}
 order=['ref','a','b','c']
@@ -31,7 +31,7 @@ for i,n in enumerate(order):
         im=mk(P[n],INK,380); S.paste(im,(x+(cw-380)//2,y),im)
     t,s=labels[n]; D.text((x+50,y+ch-20),t,font=mono,fill=INK); D.text((x+50,y+ch+8),s,font=sub,fill='#5A6058')
     if n==REC:
-        D.rounded_rectangle((x+cw-210,y+ch-24,x+cw-50,y+ch+6),radius=4,fill=INK); D.text((x+cw-196,y+ch-21),'RECOMMENDED',font=monos,fill=LUME)
+        D.rounded_rectangle((x+cw-160,y+ch-24,x+cw-50,y+ch+6),radius=4,fill=INK); D.text((x+cw-146,y+ch-21),'CHOSEN',font=monos,fill=LUME)
 # row 2 dark
 y2=y+ch+60; dh=520
 D.rectangle((0,y2,W,y2+dh),fill=BG)
@@ -57,8 +57,8 @@ for k,x in (('lockup-black.svg',60),('lockup-tapeout-black.svg',960)):
 y5=y4+300
 D.text((60,y5),'SMALL SIZES  actual pixels 16 / 24 / 32, then the same pixels zoomed (4x, 4x, 3x)',font=mono,fill='#5A6058')
 y5+=50
-pick=lambda n,sz: n if n!='cs' else ('c16' if sz==16 else 'c32')
-labels['cs']=('C  FAVICON CUTS','')
+pick=lambda n,sz: n if n!='cs' else (f'{REC}16' if sz==16 else f'{REC}32')
+labels['cs']=('A  FAVICON CUTS','')
 for n in order+['cs']:
     yy=y5
     D.text((60,yy+60),labels[n][0],font=monos,fill=INK)

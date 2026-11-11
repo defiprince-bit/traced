@@ -3,7 +3,7 @@
 How Douglas's direction and the brief were applied. Please raise §3 with Douglas.
 
 ## 1. Applied as given
-- Logo **deferred**: the placeholder wordmark "Traced" only, with no mark (`logo-wordmark.svg`).
+- Logo **chosen: A (via ring)**. `logo/mark.svg` is A. Mocks use the A mark plus the official lockup in the landing header and footer, and the app sidebar and mobile header. Favicons and lockup tiles were rebuilt from A. The 16px cut enlarges the hole and via so the ring still reads.
 - Landing in ref1 language: #0B0B0B, hairline grid, crosshair marks, hatch on the hero-left panel, mono uppercase nav with "/" prefixes, a big grotesk headline (Host Grotesk) with a mono pill above, ghost and solid lume buttons, a right panel with a mono status label and a dotted bar meter, and a bottom stats strip.
 - A lighter acid green: **#C8FF6A** (16.8:1 on bg; text on it is #0B0B0B), tested by script.
 - Hero visual: two interactive voxel dot-cubes with dust along right-angle PCB paths in Canvas2D. Pointer or touch tilts them; hover or tap streams the dust to the other cube. Fewer particles on mobile, static under reduced motion.
@@ -28,12 +28,11 @@ How Douglas's direction and the brief were applied. Please raise §3 with Dougla
 
 ## 3. Real conflicts and open questions (please raise with Douglas)
 1. **Acid green vs "distinct from Firsto".** Firsto is dark with a teal-green. We kept Douglas's green but pushed it yellow (#C8FF6A, hue ≈ 82° against Firsto's ≈ 160°), paired it with gold and pink verdicts, and used no teal anywhere. If judges see Firsto and Traced side by side, "dark plus green" is the overlap. Fallback if needed: make gold `--orig` the primary accent.
-2. **Logo.** Douglas said deferred, so the mocks use the wordmark only. A mark exploration now exists in `design/logo/` (A/B/C variants retraced from `traced-refs/logo-ref.jpg`, recommending C, with favicons and an X avatar). It came from a separate workstream and is **not** wired into these mocks. Douglas should confirm whether it replaces the placeholder; if so, swap `.wm` in the header, app sidebar and footer.
-3. **"Miner" vs "Miner-sized"** (above): does the brief require the shorter label? We recommend keeping the code's label.
-4. **#34 has no indexed tape-out block**, so "likely original" for #4 is picked **by ID on the same processor**, not by block. The UI says so. If DevOps indexes #34's tx, the basis line should switch to "by block".
-5. **#5's replay comparison against #4** is a user-picked pairing ("you picked: official XOR"), not an automatic twin. The UI labels it that way.
-6. **#3 has no name** in the index; it's shown as "#3 · Library" with no title.
-7. **Pinned scroll length** (story 240vh, badges 340vh) may feel long in a 2–3 minute demo video. Shorten both by about 30% for recording, or record with `#f=` jumps.
+2. **"Miner" vs "Miner-sized"** (above): does the brief require the shorter label? We recommend keeping the code's label.
+3. **#34 has no indexed tape-out block**, so "likely original" for #4 is picked **by ID on the same processor**, not by block. The UI says so. If DevOps indexes #34's tx, the basis line should switch to "by block".
+4. **#5's replay comparison against #4** is a user-picked pairing ("you picked: official XOR"), not an automatic twin. The UI labels it that way.
+5. **#3 has no name** in the index; it's shown as "#3 · Library" with no title.
+6. **Pinned scroll length** (story 240vh, badges 340vh) may feel long in a 2–3 minute demo video. Shorten both by about 30% for recording, or record with `#f=` jumps.
 
 ## 4. Nothing outbound
-No messages were sent. App code in `/workspace/traced/src` is untouched.
+No messages were sent. After Douglas chose mark A, `src/brand.ts` `LOGO` was set to `'a'`, A favicons were copied into `public/brand/`, and the app Wordmark was stacked and colorized to lume so the black SVG reads on the dark UI. Not pushed or deployed.

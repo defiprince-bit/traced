@@ -2,7 +2,7 @@
 
 **Traced, for TapeOut.** *Every circuit, traced back to its source.*
 OKX X Layer TapeOut hackathon entry, due **7 Dec 2026 23:59 UTC** (8 Dec 00:59 WAT).
-Design only. Nothing in `/workspace/traced/src` was touched. System rules live in `traced-steering.md`; the decisions log is in `NOTES.md`.
+Design lives in this folder. After Douglas chose mark A, the app switch in `src/brand.ts` was set to A and favicons were copied into `public/brand/` (local only, not pushed). System rules live in `traced-steering.md`; the decisions log is in `NOTES.md`.
 
 ## 1. Direction
 Douglas's ref1 (Axiom Zero) language, rewritten for provenance:
@@ -77,8 +77,8 @@ Wrap every GSAP setup in `gsap.matchMedia()` with `(prefers-reduced-motion: no-p
 ## 9. Legal and assets
 - No OKX, X Layer, TapeOut or third-party logos. Names appear as text only, and the footer disclaimer is required.
 - Fonts are OFL. The cubes and grids are code.
-- The **logo is deferred** (Douglas). The mocks use the placeholder wordmark `logo-wordmark.svg` ("Traced" in Host Grotesk 600, outlined, no mark).
-- A separate mark exploration exists in `logo/` (from another workstream, retraced from `traced-refs/logo-ref.jpg`). It isn't used in these mocks; see NOTES.md.
+- The **logo is A (via ring)**, chosen by Douglas on 11 Nov 2026. Files live in `logo/`. `mark.svg` is A. Colour: lume `#C8FF6A` on `#0B0B0B`.
+- Mocks use the A mark plus the official lockup (mark, "Traced" in Host Grotesk 600, "for TapeOut" in Geist Mono caps under the wordmark), inlined so they stay self-contained. The favicon is inlined from `logo/favicon.svg`. The earlier placeholder `logo-wordmark.svg` is unused.
 - `_superseded-v0/` holds the earlier copper/serif direction. Ignore it.
 
 ## 10. Shot index (`shots/`)

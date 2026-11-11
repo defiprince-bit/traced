@@ -65,9 +65,11 @@ button{font:inherit;color:inherit}
 .label{font:500 var(--text-2xs)/1.2 var(--font-mono);letter-spacing:var(--track-label);text-transform:uppercase;color:var(--fg-3)}
 .foot{font-size:var(--text-xs);color:var(--fg-3);line-height:1.5}
 .g{color:var(--lume)}
-.wm{display:inline-flex;align-items:baseline;gap:10px;text-decoration:none;color:var(--fg)}
-.wm b{font:600 22px/1 var(--font-display);letter-spacing:-.03em}
+.wm{display:inline-flex;align-items:center;gap:10px;text-decoration:none;color:var(--fg)}
+.wm .wm-text{display:flex;flex-direction:column;justify-content:center;gap:5px}
+.wm b{font:600 18px/1 var(--font-display);letter-spacing:-.03em}
 .wm small{font:500 var(--text-2xs)/1 var(--font-mono);letter-spacing:var(--track-label);text-transform:uppercase;color:var(--fg-3)}
+.wm.compact b{font-size:16px}
 /* crosshair mark: put <i class="x"></i> inside a positioned box; .tl/.tr/.bl/.br corners */
 .x{position:absolute;width:calc(var(--cross,9px)*2+1px);height:calc(var(--cross,9px)*2+1px);pointer-events:none;z-index:3}
 .x::before,.x::after{content:"";position:absolute;background:var(--crosshair)}
@@ -582,7 +584,7 @@ html.static .tt tbody tr,html.static .leaf{opacity:1;animation:none}
 .mleaves .gl{font:500 var(--text-2xs)/1 var(--font-mono);letter-spacing:var(--track-label);text-transform:uppercase;color:var(--fg-3);margin:12px 0 8px}
 
 
-/* Brand + accent swap (Douglas choosing later). Default: lume #C8FF6A, wordmark only. */
+/* Brand + accent swap. Logo is A (via ring); accent default lume #C8FF6A. */
 html[data-accent="orig"]{
   --lume:#FFC266;
   --lume-hi:#FFD699;
@@ -592,7 +594,8 @@ html[data-accent="orig"]{
   --glow-lume:0 0 0 1px rgba(255,194,102,.5),0 0 28px rgba(255,194,102,.16);
 }
 .wm.with-mark{align-items:center}
-.wm.with-mark img,.wm.with-mark .mark{width:28px;height:28px;flex:none;display:block}
+.wm.with-mark .mark{width:36px;height:36px;flex:none;display:block;background:var(--lume);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center}
+.wm.compact .mark{width:28px;height:28px}
 /* landing mobile sheet */
 .sheet{position:fixed;inset:0;z-index:80;background:rgba(11,11,11,.94);display:flex;flex-direction:column;padding:20px 20px 32px;gap:8px}
 .sheet .row{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}

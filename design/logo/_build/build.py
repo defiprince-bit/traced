@@ -9,7 +9,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 OUT='/workspace/traced/design/logo'
 LUME='#C8FF6A'; BG='#0B0B0B'; FG='#F2F4EF'; FG3='#7E847C'; INK='#0B0B0B'
-REC='c'
+REC='a'
 P=json.load(open('paths.json'))
 NOTE={'a':'Variant A - via ring: a concentric via dot sits in the centre hole',
       'b':'Variant B - SMD pad: the long right arm ends in a rounded-square pad instead of a round blob',
@@ -53,7 +53,7 @@ write('mark-on-dark.svg',tile(M))
 
 # ---------- favicons + avatar ----------
 fav_small=lambda d: tile(d,512,rx=96,pad=0.06)       # 16/32: mark as large as possible
-M16,M32=P['c16'],P['c32']       # optically thickened small-size cuts of the recommended mark
+M16,M32=P[f'{REC}16'],P[f'{REC}32']  # optically thickened small-size cuts of the chosen mark
 write('mark-small-16.svg',svg(512,512,pathel(M16,INK,'Traced mark, 16px cut')))
 write('mark-small-32.svg',svg(512,512,pathel(M32,INK,'Traced mark, 24-32px cut')))
 write('favicon.svg',fav_small(M32))

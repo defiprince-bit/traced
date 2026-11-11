@@ -71,6 +71,12 @@ def variant(name):
         d=np.maximum(d,-circ(UL[0],UL[1],17))
     elif name=='c16':   # 16px cut of C: arms thickened ~7px, via dropped (sub-pixel at 16px)
         d=np.maximum(d-7.0,-circ(HOLE[0],HOLE[1],HOLE[2]-2))
+    elif name=='a32':   # small-size cut of A: arms thickened ~3px, hole/via slightly enlarged so the ring stays open at 24-32px
+        d=np.maximum(d-3.0,-circ(HOLE[0],HOLE[1],48))
+        d=np.minimum(d,circ(HOLE[0],HOLE[1],20))
+    elif name=='a16':   # 16px cut of A: arms thickened ~7px, hole and via optically enlarged so the via still reads at 16px
+        d=np.maximum(d-7.0,-circ(HOLE[0],HOLE[1],70))
+        d=np.minimum(d,circ(HOLE[0],HOLE[1],26))
     return d
 
 def trace(d):
