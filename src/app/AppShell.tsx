@@ -4,10 +4,11 @@ import { toHash, type AppView, type Route } from '../route';
 import { Wordmark } from '../ui/Wordmark';
 import { LookupBar } from '../ui/LookupBar';
 import { IconHome, IconLookup, IconLineage, IconCopies, IconReplay, IconHonesty } from '../ui/icons';
-import { short } from '../lib/format';
 import { useCircuit } from './useCircuit';
 import { LookupView } from './LookupView';
-import { LineageView, LineageToggle } from './LineageView';
+import { LineageView, LineageToggle, DepthToggle, DEFAULT_DEPTHS } from './LineageView';
+import { Coverage } from '../ui/Coverage';
+import { short, num } from '../lib/format';
 import { CopyView } from './CopyView';
 import { ReplayView } from './ReplayView';
 import { LoadingState, NotFoundState, ErrorState, EmptyLookup } from './States';
@@ -30,6 +31,9 @@ export default function AppShell({ ix, route, go }: { ix: LoadedIndex; route: Ro
   const twinCount = model.group ? model.group.members.length - 1 : 0;
   const view = defaultView(route, twinCount);
   const [list, setList] = useState(false);
+  const [upDepth, setUpDepth] = useState(DEFAULT_DEPTHS.up);
+  const [downDepth, setDownDepth] = useState(DEFAULT_DEPTHS.down);
+  const [honesty, setHonesty] = useState(false);
   const cpu = route.cpu;
   const rec = ix.cpus.find(c => c.a === cpu);
   const cpuName = ix.cpuName(cpu);
@@ -40,6 +44,9 @@ export default function AppShell({ ix, route, go }: { ix: LoadedIndex; route: Ro
     document.documentElement.classList.remove('landing');
     return () => { document.documentElement.classList.remove('app'); };
   }, []);
+
+  useEffect(() => { void ix.loadCpu(cpu); }, [ix, cpu]);
+  useEffect(() => { setUpDepth(DEFAULT_DEPTHS.up); setDownDepth(DEFAULT_DEPTHS.down); }, [cpu, route.id]);
 
   const href = (v: AppView, id = route.id, vs = route.vs) => toHash({ cpu, id, vs, view: v });
   const onTrace = (c: string, id: number) => go({ cpu: c, id, vs: null, view: 'lookup' });
@@ -66,7 +73,7 @@ export default function AppShell({ ix, route, go }: { ix: LoadedIndex; route: Ro
   else if (model.loading && !model.rec && !model.live) body = <LoadingState id={route.id} />;
   else if (model.notFound) body = <NotFoundState cpuName={cpuName} id={route.id} />;
   else if (model.err && !model.live && !model.rec) body = <ErrorState err={model.err} onRetry={() => go({ ...route })} />;
-  else if (view === 'lineage') body = <LineageView ix={ix} model={model} list={list} />;
+  else if (view === 'lineage') body = <LineageView ix={ix} model={model} list={list} upDepth={upDepth} downDepth={downDepth} onExpandCpu={a => void ix.loadCpu(a)} />;
   else if (view === 'copy') body = <CopyView ix={ix} model={model} />;
   else if (view === 'replay') body = <ReplayView ix={ix} model={model} vs={route.vs} onVs={n => go({ ...route, vs: n, view: 'replay' })} />;
   else body = <LookupView ix={ix} model={model} vs={route.vs} />;
@@ -84,9 +91,10 @@ export default function AppShell({ ix, route, go }: { ix: LoadedIndex; route: Ro
           <span className="label">Processor</span>
           <b>{cpuName} {symbol && <span className="mono">{symbol}</span>}</b>
           <span className="mono">{short(cpu, 6)}</span>
+          {rec && <span className="foot">{num(rec.i ?? 0)} of {num(rec.c ?? 0)} indexed{rec.st === 'partial' ? ' · partial' : rec.st === 'skipped' ? ' · not in index' : ''}</span>}
         </div>
         <div className="bottom">
-          <a className="navi" href="#honesty"><IconHonesty />What we can’t see</a>
+          <button type="button" className="navi" onClick={() => setHonesty(true)}><IconHonesty />What we can’t see</button>
           <div className="live"><i />X Layer · read-only</div>
         </div>
       </aside>
@@ -97,12 +105,25 @@ export default function AppShell({ ix, route, go }: { ix: LoadedIndex; route: Ro
         </div>
         <div className="titlerow">
           {title}
-          {view === 'lineage' && <LineageToggle list={list} setList={setList} />}
+          {view === 'lineage' && <>
+            <DepthToggle up={upDepth} down={downDepth} setUp={setUpDepth} setDown={setDownDepth} />
+            <LineageToggle list={list} setList={setList} />
+          </>}
           <div className="r"><LookupBar ix={ix} cpu={cpu} id={route.id} onTrace={onTrace} /></div>
         </div>
         {model.err && model.rec && <p className="foot" style={{ color: 'var(--copy)' }}>Live read failed: {model.err}. Showing index data.</p>}
         {body}
       </main>
+      {honesty && (
+        <div className="honest-panel" role="dialog" aria-labelledby="honesty-title" data-testid="honesty-panel">
+          <div className="row">
+            <h2 id="honesty-title">What we can’t see</h2>
+            <button type="button" className="btn btn-sm" onClick={() => setHonesty(false)}>Close</button>
+          </div>
+          <Coverage ix={ix} inApp />
+          <p className="foot"><a href="#honesty" onClick={() => setHonesty(false)}>Open the landing honesty section</a></p>
+        </div>
+      )}
       <nav className="tabbar" aria-label="App">
         <a className={view === 'lookup' ? 'on' : ''} href={href('lookup')} data-v="lookup"><IconLookup />Lookup</a>
         <a className={view === 'lineage' ? 'on' : ''} href={href('lineage')} data-v="lineage"><IconLineage />Lineage</a>

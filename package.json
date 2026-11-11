@@ -11,6 +11,7 @@
     "preview": "vite preview",
     "test": "vitest run",
     "index": "tsx scripts/build-index.ts",
+    "index-skipped": "tsx scripts/index-skipped.ts",
     "find-blocks": "node scripts/find-tapeout-blocks.mjs",
     "smoke": "node scripts/smoke.mjs"
   },

@@ -80,7 +80,7 @@ export function ReplayTable({
           <span className="sum" data-testid="verdict">{agree === rows.length ? <><IconCheck />{agree} of {rows.length} match</> : <><IconX />{rows.length - agree} of {rows.length} differ</>}</span>
         )}
       </div>
-      {subject.nState && <p className="foot">Sequential circuits (with latches) can’t be replayed with eval() in this MVP.</p>}
+      {!!subject.nState && <p className="foot">Sequential circuits (with latches) can’t be replayed with eval() in this MVP.</p>}
       {against && !comparable && !subject.nState && <p className="foot">Pins differ ({subject.nIn}→{subject.nOut} vs {against.nIn}→{against.nOut}), so outputs can’t be compared row by row.</p>}
       {err && <p className="foot" style={{ color: 'var(--copy)' }}>{err}</p>}
       {busy && !rows && <p className="foot">Running free eval() view calls…</p>}

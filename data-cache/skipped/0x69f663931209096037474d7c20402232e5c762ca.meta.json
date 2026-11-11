@@ -1,0 +1,12 @@
+{
+  "name": "TAPELIQUID",
+  "cpu": "0x69f663931209096037474d7c20402232e5c762ca",
+  "block": 75628053,
+  "nextIdAtBlock": 1387,
+  "nextIdLatest": 1387,
+  "target": 1387,
+  "indexed": 1387,
+  "missing": 0,
+  "emptyOrError": 0,
+  "finishedAt": "2026-11-11T16:30:54.446Z"
+}

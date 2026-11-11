@@ -1,10 +1,9 @@
-import { useState } from 'react';
 import type { LoadedIndex } from '../useIndex';
 import type { CircuitModel } from './useCircuit';
 import { Badge } from '../ui/Badge';
 import { VerdictTag } from '../ui/VerdictTag';
 import { HonestNote } from '../ui/HonestNote';
-import { RadialLineage, type LineageMode } from './RadialLineage';
+import { FamilyTree } from './FamilyTree';
 import { LineageList } from './LineageList';
 import { ReplayTable, replayOptions } from './ReplayTable';
 import { IconCheck } from '../ui/icons';
@@ -15,7 +14,6 @@ import { toHash } from '../route';
 
 export function LookupView({ ix, model, vs }: { ix: LoadedIndex; model: CircuitModel; vs: number | null }) {
   const { cpu, id, rec, cls, parents, children, group, silent, isOriginal, owner, pins, tx, hash, decoded } = model;
-  const [mode, setMode] = useState<LineageMode>('parents');
   if (id == null) return null;
   const name = circuitName(cpu, id);
   const summary = rec ? summarize(cpu, id, rec, cls) : '';
@@ -77,9 +75,9 @@ export function LookupView({ ix, model, vs }: { ix: LoadedIndex; model: CircuitM
       </section>
 
       <section className="card" aria-label="Lineage" data-testid="parents">
-        <div className="card-h"><h2>Lineage</h2><span className="label">{parents.length} parents · {children.length} children</span></div>
-        <RadialLineage ix={ix} cpu={cpu} id={id} cls={cls} name={name} parents={parents} children={children} group={group} mode={mode} onMode={setMode} small />
-        <LineageList ix={ix} cpu={cpu} id={id} cls={cls} parents={parents} children={children} group={group} mode={mode} onMode={setMode} />
+        <div className="card-h"><h2>Lineage</h2><span className="label">{parents.length} parents · {children.length} children · depth 2</span></div>
+        <FamilyTree ix={ix} cpu={cpu} id={id} cls={cls} name={name} upDepth={2} downDepth={2} small view="lookup" onExpandCpu={a => void ix.loadCpu(a)} />
+        <LineageList ix={ix} cpu={cpu} id={id} cls={cls} group={group} upDepth={2} downDepth={2} view="lookup" onExpandCpu={a => void ix.loadCpu(a)} />
         <div data-testid="children" className="foot" style={{ padding: '0 20px 14px' }}>
           {children.length ? children.map(([c, i, u]) => `${c !== cpu ? ix.cpuName(c) + ' ' : ''}#${i}${u > 1 ? ' ×' + u : ''}`).join(' · ') : 'No indexed circuit cites this one.'}
         </div>

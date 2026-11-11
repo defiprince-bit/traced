@@ -1,0 +1,12 @@
+{
+  "name": "FAB-Genisis",
+  "cpu": "0x87bfca3494aa228ff589ab9b642143a5e8c8f9a6",
+  "block": 75628053,
+  "nextIdAtBlock": 6953,
+  "nextIdLatest": 6954,
+  "target": 6953,
+  "indexed": 6953,
+  "missing": 0,
+  "emptyOrError": 0,
+  "finishedAt": "2026-11-11T16:33:15.932Z"
+}

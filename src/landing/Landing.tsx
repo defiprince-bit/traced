@@ -8,6 +8,7 @@ import { Badge } from '../ui/Badge';
 import { VerdictTag } from '../ui/VerdictTag';
 import { TraceScene } from '../cubes';
 import { useLandingMotion } from './useLandingScroll';
+import { Coverage } from '../ui/Coverage';
 
 const NAV = [
   { href: '#story', label: 'Story' },
@@ -252,6 +253,12 @@ export default function Landing({ ix, onTrace }: { ix: LoadedIndex; onTrace: (cp
             <div className="hc rv"><span className="mono">05</span><h3>Badges are our labels</h3><p>Toy, Wrapper, Library and Miner-sized are Traced heuristics, not TapeOut classes.</p></div>
             <div className="hc rv"><span className="mono">06</span><h3>Same bytes, nothing more</h3><p>A copy check compares netlist bytes. It can’t see intent, and REF reuse is never a copy.</p></div>
           </div>
+          {ix && (
+            <div className="hcov rv">
+              <h3>What’s in the index</h3>
+              <Coverage ix={ix} />
+            </div>
+          )}
           <i className="x tl" /><i className="x tr" />
         </section>
 
@@ -305,8 +312,8 @@ function Inside() {
       <div className="dv-l">
         <div className={`dblock${screen === 0 ? ' on' : ''}`} data-s="0" ref={el => { blocks.current[0] = el; }}>
           <span className="eyebrow">01 / Lineage</span>
-          <h3>Follow every REF, even eleven of them.</h3>
-          <p>The circuit sits on the left. Its REFs fan out to every part it reuses, grouped by parent, with use counts.</p>
+          <h3>Follow every REF, several levels deep.</h3>
+          <p>Ancestors fan left, descendants fan right, grouped by circuit, with use counts. Depth is 1–3 either way.</p>
           <ul><li>#12 → #9 ×8, #10 ×2, #2 ×1</li><li>Wide fan-outs collapse to “+k more”</li><li>Click any node for its detail</li></ul>
           <div className="mframe"><a href={items[0].href}><img src={items[0].m} alt="Lineage view of Cerebr #12" /></a></div>
         </div>

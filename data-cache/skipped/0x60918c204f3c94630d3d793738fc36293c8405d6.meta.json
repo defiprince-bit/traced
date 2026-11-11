@@ -1,0 +1,12 @@
+{
+  "name": "9898",
+  "cpu": "0x60918c204f3c94630d3d793738fc36293c8405d6",
+  "block": 75628053,
+  "nextIdAtBlock": 1022,
+  "nextIdLatest": 1022,
+  "target": 1022,
+  "indexed": 1022,
+  "missing": 0,
+  "emptyOrError": 0,
+  "finishedAt": "2026-11-11T16:30:26.062Z"
+}

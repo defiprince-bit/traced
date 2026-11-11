@@ -97,7 +97,7 @@ export function CopyView({ ix, model }: { ix: LoadedIndex; model: CircuitModel }
       <Filters silent={!!silent} hasGroup={true} byBlock={byBlock} cpuName={cpuName} />
       <div className="results">
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <span className="label">{group.members.length - 1} finding · {cpuName}</span>
+          <span className="label">{num(group.members.length - 1)} other{group.members.length - 1 === 1 ? "" : "s"} · {cpuName}</span>
         </div>
         <section className="card finding" aria-label="Finding" data-testid="twins">
           <div className="card-h">
@@ -127,6 +127,7 @@ export function CopyView({ ix, model }: { ix: LoadedIndex; model: CircuitModel }
             <span className="label">Netlist hash, both</span>
             <b title={hash}>{short(hash, 10)}</b>
             <span>{group.nand} NAND · {group.latch} LATCH · {group.ref} REF</span>
+            <span>{num(group.members.length)} indexed circuits on {new Set(group.members.map(m => m[0])).size} processors</span>
           </div>
           <div className="f-actions">
             <a className="btn btn-lume btn-sm" href={toHash({ cpu, id, vs: orig && orig[1] !== id ? orig[1] : other[0]?.[1] ?? null, view: 'replay' })}>Replay both</a>
