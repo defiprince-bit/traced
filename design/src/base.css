@@ -1,0 +1,74 @@
+/* Traced base + components (mock implementation of traced-steering.md) */
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--substrate);color:var(--silk);font:400 var(--text-base)/var(--leading-body) var(--font-body);-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.mono{font-family:var(--font-mono);font-feature-settings:"zero" 1}
+.label{font:500 var(--text-2xs)/1 var(--font-mono);letter-spacing:var(--track-label);text-transform:uppercase;color:var(--silk-3)}
+.foot{font-size:var(--text-xs);color:var(--silk-3);line-height:1.5}
+.it{font-family:var(--font-display);font-style:italic;font-weight:400}
+.pcb-bg{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:32px 32px;mask-image:radial-gradient(ellipse 80% 60% at 50% 0%,#000 30%,transparent 80%)}
+
+/* top bar */
+.topbar{position:relative;z-index:2;display:flex;align-items:center;gap:var(--s-4);height:64px;padding:0 var(--s-8);border-bottom:1px solid var(--etch)}
+.brand{display:inline-flex;align-items:center;gap:10px;text-decoration:none}
+.brand .mark{width:28px;height:28px}
+.brand b{font:italic 500 26px/1 var(--font-display);letter-spacing:-.01em;color:var(--silk)}
+.brand small{font:400 var(--text-xs)/1 var(--font-body);color:var(--silk-3);margin-left:2px;padding-top:6px}
+.spacer{flex:1}
+.nav-link{color:var(--silk-2);text-decoration:none;font-size:var(--text-sm)}
+.nav-link:hover{color:var(--silk)}
+.ro-pill{display:inline-flex;align-items:center;gap:8px;height:28px;padding:0 12px;border:1px solid var(--etch);border-radius:var(--r-pill);font:500 var(--text-xs)/1 var(--font-mono);color:var(--silk-2)}
+.ro-pill i{width:7px;height:7px;border-radius:2px;background:var(--signal);box-shadow:var(--glow-signal)}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 16px;border-radius:var(--r-sm);border:1px solid var(--etch-strong);background:var(--die);color:var(--silk);font:500 var(--text-sm)/1 var(--font-body);text-decoration:none;cursor:pointer;transition:transform var(--d-fast) var(--ease-out),opacity var(--d-fast)}
+.btn:hover{background:var(--die-hi)}
+.btn:active{transform:translateY(1px)}
+.btn-copper{background:var(--copper);border-color:var(--copper);color:var(--copper-ink);font-weight:600}
+.btn-copper:hover{background:#F0A673}
+.btn-lg{height:52px;padding:0 22px;font-size:var(--text-base)}
+.btn:focus-visible,.field:focus-within,.chip:focus-visible,a:focus-visible{outline:none;box-shadow:var(--ring)}
+.kbd{font:500 var(--text-2xs)/1 var(--font-mono);padding:4px 6px;border-radius:4px;background:rgba(0,0,0,.18)}
+
+/* lookup bar */
+.lookup{display:flex;gap:0;align-items:stretch;border:1px solid var(--etch-strong);border-radius:var(--r-md);background:var(--die);padding:5px;box-shadow:var(--shadow-card)}
+.lookup .proc{display:flex;flex-direction:column;justify-content:center;gap:5px;padding:0 16px 0 12px;border-right:1px solid var(--etch);min-width:210px;cursor:pointer}
+.lookup .proc .v{display:flex;align-items:center;gap:8px;font:500 var(--text-base)/1 var(--font-body);color:var(--silk)}
+.lookup .proc .v .mono{font-size:var(--text-xs);color:var(--silk-3);font-weight:400}
+.lookup .cid{flex:1;min-width:0;display:flex;align-items:center;gap:10px;padding:0 16px}
+.lookup .cid .hash{font:500 22px/1 var(--font-mono);color:var(--copper)}
+.lookup .cid input{flex:1;min-width:0;width:100%;border:0;background:transparent;color:var(--silk);font:500 20px/1 var(--font-mono);outline:none}
+.lookup .cid input::placeholder{color:var(--silk-3);font-weight:400}
+.chev{width:12px;height:12px;color:var(--silk-3)}
+
+/* example chips */
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;align-items:center;gap:8px;height:34px;padding:0 12px 0 10px;border-radius:var(--r-sm);border:1px solid var(--etch);background:var(--wafer);color:var(--silk-2);font-size:var(--text-sm);text-decoration:none;transition:transform var(--d-fast) var(--ease-out),border-color var(--d-fast)}
+.chip:hover{border-color:var(--copper-dim);color:var(--silk);transform:translateY(-1px)}
+.chip .mono{color:var(--copper);font-weight:600}
+.chip .pin{width:6px;height:6px;border-radius:1.5px;background:var(--copper)}
+
+/* cards */
+.card{position:relative;background:var(--wafer);border:1px solid var(--etch);border-radius:var(--r-lg);box-shadow:var(--shadow-card)}
+.card-h{display:flex;align-items:center;gap:var(--s-3);padding:var(--s-5) var(--s-6) 0}
+.card-h h2{margin:0;font:italic 400 var(--text-lg)/1.1 var(--font-display);color:var(--silk)}
+.card-h .label{margin-left:auto}
+.card-b{padding:var(--s-4) var(--s-6) var(--s-6)}
+
+/* class badges: a tiny DIP package */
+.badge{--c:var(--cls-flat);display:inline-flex;align-items:center;gap:8px;height:28px;padding:0 12px 0 8px;border-radius:var(--r-xs);border:1px solid color-mix(in srgb,var(--c) 45%,transparent);background:color-mix(in srgb,var(--c) 10%,transparent);color:var(--c);font:600 var(--text-xs)/1 var(--font-mono);letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
+.badge .pkg{position:relative;width:12px;height:14px;border-radius:2px;background:var(--c)}
+.badge .pkg::before,.badge .pkg::after{content:"";position:absolute;top:2px;bottom:2px;width:2px;background:repeating-linear-gradient(var(--c) 0 2px,transparent 2px 4px)}
+.badge .pkg::before{left:-4px}.badge .pkg::after{right:-4px}
+.badge.toy{--c:var(--cls-toy)}.badge.wrapper{--c:var(--cls-wrapper)}.badge.library{--c:var(--cls-library)}
+.badge.miner{--c:var(--cls-miner)}.badge.composed{--c:var(--cls-composed)}.badge.flat{--c:var(--cls-flat);border-style:dashed}
+.badge.sm{height:22px;font-size:10px;padding:0 8px 0 6px;gap:7px}.badge.sm .pkg{width:9px;height:11px}
+
+/* status marks */
+.mk{display:inline-flex;align-items:center;gap:6px;font:600 var(--text-xs)/1 var(--font-mono)}
+.mk.pass{color:var(--signal)}.mk.fail{color:var(--alert)}
+.mk svg{width:14px;height:14px}
+.bit{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:5px;font:600 var(--text-sm)/1 var(--font-mono);background:var(--die);color:var(--silk-3);border:1px solid var(--etch)}
+.bit.on{background:var(--signal-veil);color:var(--signal);border-color:rgba(184,242,107,.4)}
+
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
