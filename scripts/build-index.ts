@@ -67,12 +67,14 @@ const twinGroups: IndexTwinGroup[] = groups.map((g, gi) => {
   const reps = [...byCpu.values()];
   let original: { cpu: string; id: number } | null = null;
   let basis: IndexTwinGroup['basis'] = 'unknown';
-  if (reps.length === 1) { original = reps[0]; basis = 'id-same-cpu'; }
-  else if (reps.every(r => r.block != null)) {
-    reps.sort((a, b) => a.block! - b.block!);
-    original = reps[0]; basis = reps[0].block === reps[1].block ? 'unknown' : 'block';
-    if (basis === 'unknown') original = null;
-  }
+  if (reps.every(r => r.block != null) && reps.length > 0) {
+    const sorted = [...reps].sort((a, b) => a.block! - b.block! || a.id - b.id);
+    if (sorted.length === 1 || sorted[0].block !== sorted[1].block) {
+      original = sorted[0]; basis = 'block';
+    } else {
+      original = null; basis = 'unknown';
+    }
+  } else if (reps.length === 1) { original = reps[0]; basis = 'id-same-cpu'; }
   for (const m of g.members) twinOf.set(key(m.cpu, m.id), gi);
   const d = decoded.get(key(g.members[0].cpu, g.members[0].id))!;
   return {

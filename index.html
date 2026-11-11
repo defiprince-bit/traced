@@ -5,7 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Traced, for TapeOut — every circuit, traced back to its source</title>
     <meta name="description" content="Look up any TapeOut circuit on X Layer: its REF parents and children, byte-identical copies, and a free eval() replay." />
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%230b0d10'/><path d='M6 22h6l4-12 4 12h6' stroke='%237cf5c4' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>" />
+    <link rel="icon" href="/brand/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/brand/favicon-32.png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/brand/favicon-180.png" />
+    <link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@400;500;600&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <script>
+      (function(){
+        var h=location.hash;
+        if(h.indexOf('shot')>=0)document.documentElement.classList.add('shot');
+        if(h.indexOf('static')>=0||(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches))
+          document.documentElement.classList.add('static');
+        document.documentElement.classList.add(/^#\/?0x/i.test(h)?'app':'landing');
+        try{history.scrollRestoration='manual'}catch(e){}
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

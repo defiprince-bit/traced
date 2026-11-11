@@ -30,4 +30,13 @@ describe('prebuilt index', () => {
     expect(g.original).toEqual([C, 4]);
     expect(get(4).o).not.toBe(get(34).o);
   });
+
+  it('Cerebr #34 has a tape-out tx and the twin original is picked by block', () => {
+    expect(get(34).x?.tx).toBe('0x0c5b2a199f1b9f2f924fe560396b15752b341f264d00ecc7030678b4d002fb85');
+    expect(get(34).x?.block).toBe(72819370);
+    const g = ix.twins[get(4).t];
+    expect(g.basis).toBe('block');
+    expect(g.original).toEqual([C, 4]);
+    expect(get(4).x!.block).toBeLessThan(get(34).x!.block);
+  });
 });

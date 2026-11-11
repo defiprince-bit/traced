@@ -1,67 +1,56 @@
-/* Traced design tokens: source of truth (mirrored in traced-steering.md) */
+/* Traced design tokens v1 (Douglas direction, 11 Nov 2026): black + lighter acid green.
+   Source of truth; mirrored in traced-steering.md. Contrast ratios are against --bg #0B0B0B. */
 :root{
-  /* surfaces: a die under a microscope */
-  --substrate:#0B0A10;     /* page background */
-  --wafer:#13111A;         /* cards, panels */
-  --die:#1B1824;           /* raised: inputs, nodes, table head */
-  --die-hi:#24202F;        /* hover on raised */
-  --etch:#2C2838;          /* hairline borders */
-  --etch-strong:#433C54;   /* focus-adjacent borders, dividers on raised */
-  --grid:rgba(227,146,95,.05); /* faint PCB grid lines */
-  /* text: silkscreen */
-  --silk:#EEEAF3;          /* primary text  15.9:1 on wafer */
-  --silk-2:#B9B2C7;        /* secondary     8.9:1 */
-  --silk-3:#8D869C;        /* footnotes, labels 5.2:1 */
-  /* copper: traces, brand, primary action */
-  --copper:#E8975F;        /* 7.9:1 on wafer */
-  --copper-deep:#C0723F;   /* pressed */
-  --copper-dim:#7A4A2E;    /* idle traces in the tree */
-  --copper-ink:#1E0F05;    /* text on copper 8.6:1 */
-  --copper-veil:rgba(232,151,95,.12);
-  /* logic */
-  --signal:#B8F26B;        /* pass, logic 1, live pulse  13.6:1 */
-  --signal-ink:#132205;
-  --signal-veil:rgba(184,242,107,.12);
-  --low:#4E475F;           /* logic 0 pad */
+  /* surfaces */
+  --bg:#0B0B0B;              /* page, app canvas */
+  --panel:#111211;           /* sidebar, cards, detail panel */
+  --raised:#171917;          /* inputs, nodes, table heads, menus */
+  --raised-hi:#1E211E;       /* hover on raised */
+  --hairline:#232623;        /* grid lines, card borders */
+  --hairline-strong:#343834; /* dividers on raised */
+  --hatch:rgba(242,244,239,.05); /* diagonal hatch stroke */
+  --crosshair:#5A6058;       /* + marks at grid intersections */
+  /* text */
+  --fg:#F2F4EF;              /* primary 17.8:1 */
+  --fg-2:#A6ABA3;            /* secondary 8.4:1 */
+  --fg-3:#7E847C;            /* labels, footnotes 5.1:1 (min 11px mono caps / 12px text) */
+  /* accent: Douglas's lighter acid green */
+  --lume:#C8FF6A;            /* primary accent, solid button, live traces 16.8:1 */
+  --lume-hi:#D9FF94;         /* hover */
+  --lume-deep:#9ED93F;       /* pressed, dense voxels */
+  --lume-dim:#3E5222;        /* idle traces, empty meter cells (decorative only) */
+  --lume-veil:rgba(200,255,106,.10);
+  --on-lume:#0B0B0B;         /* text on lume 16.8:1 */
   /* verdicts */
-  --alert:#FF6E9C;         /* silent copy, mismatch  6.6:1 */
-  --alert-ink:#2A0613;
-  --alert-veil:rgba(255,110,156,.10);
-  --original:#F3C969;      /* likely original (gold pad)  11.4:1 */
-  --original-veil:rgba(243,201,105,.10);
-  --caution:#F3C969;       /* errors use alert, warnings use original */
-  /* class badges (Traced heuristics, see classify.ts) */
-  --cls-toy:#A79FB6;       /* 1–3 gates, no REF */
-  --cls-wrapper:#B9A3FF;   /* pure REF */
-  --cls-library:#E8975F;   /* cited by others (copper: it's a source) */
-  --cls-miner:#F3C969;     /* flat netlist ≥ 1,000 gates */
-  --cls-composed:#8EC5FF;  /* own gates + REF */
-  --cls-flat:#B9B2C7;      /* own gates, no REF */
+  --orig:#FFC266;            /* likely original 12.3:1 */
+  --orig-veil:rgba(255,194,102,.10);
+  --copy:#FF6B8B;            /* silent copy, mismatch, error 7.2:1 */
+  --copy-veil:rgba(255,107,139,.10);
+  --low:#2C302B;             /* logic-0 cell fill */
+  /* class badges (Traced heuristics, src/lib/classify.ts) */
+  --cls-toy:#A6ABA3; --cls-wrapper:#B9A3FF; --cls-library:#C8FF6A;
+  --cls-miner:#FFC266; --cls-composed:#8FB8FF; --cls-flat:#A6ABA3;
   /* type */
-  --font-display:"Newsreader", "Iowan Old Style", Georgia, serif; /* italic, opsz 36–72 */
-  --font-body:"Geist", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-mono:"JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --font-display:"Host Grotesk","Geist",system-ui,sans-serif;
+  --font-body:"Geist",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --font-mono:"Geist Mono","JetBrains Mono",ui-monospace,Menlo,monospace;
   --text-2xs:11px; --text-xs:12px; --text-sm:13px; --text-base:15px; --text-md:17px;
-  --text-lg:20px; --text-xl:28px; --text-2xl:40px; --text-hero:64px;
-  --leading-tight:1.08; --leading-snug:1.3; --leading-body:1.55;
-  --track-label:.08em;     /* mono uppercase labels */
-  /* spacing (4px base) */
+  --text-lg:20px; --text-xl:28px; --text-2xl:44px; --text-3xl:56px; --text-hero:72px;
+  --leading-tight:1.02; --leading-snug:1.25; --leading-body:1.55;
+  --track-display:-.03em; --track-label:.08em;
+  /* spacing */
   --s-1:4px; --s-2:8px; --s-3:12px; --s-4:16px; --s-5:20px; --s-6:24px;
-  --s-8:32px; --s-10:40px; --s-12:48px; --s-16:64px; --s-20:80px;
-  /* radii: chips are square-ish */
-  --r-xs:3px; --r-sm:6px; --r-md:10px; --r-lg:14px; --r-pill:999px;
-  /* tree geometry */
-  --node-w:148px; --node-h:56px; --target-w:220px; --target-h:96px;
-  --trace-w:2px; --via-r:4px; --bus-gap:28px;
+  --s-8:32px; --s-10:40px; --s-12:48px; --s-16:64px; --s-20:80px; --s-30:120px;
+  --frame:1280px;            /* landing frame width; hairlines on its edges */
+  --grid-cell:48px;          /* hero-panel grid */
+  /* radii: square and technical */
+  --r-xs:2px; --r-sm:4px; --r-md:8px; --r-lg:12px; --r-xl:18px; --r-pill:999px;
   /* elevation */
-  --shadow-card:inset 0 1px 0 rgba(255,255,255,.035), 0 24px 60px -30px rgba(0,0,0,.8);
-  --shadow-pop:0 18px 50px -12px rgba(0,0,0,.75);
-  --glow-copper:0 0 0 1px rgba(232,151,95,.45), 0 0 24px rgba(232,151,95,.18);
-  --glow-signal:0 0 10px rgba(184,242,107,.55);
-  --ring:0 0 0 2px var(--substrate), 0 0 0 4px var(--copper);
-  /* motion: opacity + transform only */
-  --d-instant:80ms; --d-fast:140ms; --d-base:220ms; --d-slow:420ms; --d-pulse:900ms; --d-idle:3200ms;
-  --stagger:50ms;
-  --ease-out:cubic-bezier(.2,.7,.2,1);
+  --shadow-panel:inset 0 1px 0 rgba(255,255,255,.03),0 30px 80px -40px rgba(0,0,0,.9);
+  --glow-lume:0 0 0 1px rgba(200,255,106,.5),0 0 28px rgba(200,255,106,.16);
+  --ring:0 0 0 2px var(--bg),0 0 0 4px var(--lume);
+  /* motion: CSS animates opacity + transform only; canvases redraw pixels */
+  --d-fast:140ms; --d-base:240ms; --d-slow:600ms; --d-reveal:800ms; --d-count:1200ms;
+  --ease-out:cubic-bezier(.16,1,.3,1);
   --ease-trace:cubic-bezier(.45,0,.2,1);
 }

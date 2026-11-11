@@ -1,7 +1,8 @@
-node_modules/
-dist/
+*.local
 .env
 .env.*
 .vercel/
+__pycache__/
 data-cache/*.log
-*.local
+dist/
+node_modules/

@@ -7,7 +7,7 @@ Traced is a read-only lookup for [TapeOut](https://tapeout.pro) circuits on **X 
 - **Facts:** owner, pins, flattened gate count, netlist keccak256, and the tape-out transaction where known.
 - **Built on (REF parents):** decoded live from the on-chain netlist.
 - **Cited by (REF children):** from a prebuilt index of the whole scanned census.
-- **Copy-twins:** every indexed circuit with the exact same netlist bytes (same keccak256). Identical bytes can't contain a REF to each other, so a twin group is a set of copies with no citation between them. The earliest tape-out is marked as the *likely original*.
+- **Copy-twins:** every indexed circuit with the exact same netlist bytes (same keccak256). Identical bytes can't contain a REF to each other, so a twin group is a set of copies with no citation between them. The earliest tape-out is marked as the *likely original* (by tape-out block when every member has one, otherwise by lowest ID on a single processor).
 - **Class:** `library`, `wrapper`, `toy`, `miner-sized`, `composed` or `flat` (rules below).
 - **Replay:** runs `eval()` for free in your browser over `eth_call`, prints the truth table, and compares it row by row with a twin, a parent, or any circuit you pick.
 
@@ -45,7 +45,8 @@ Demo pages (Cerebr, `0xB04EB79D1A5EECaabAAfF7B77d7c27578EE693FF`):
 - Netlist format: `NAND = 00|a:u24|b:u24`, `LATCH = 01|d:u24`, `REF = 02|cpu:20B|id:u64|nIn:u8|nOut:u8|ins:u24*nIn` (`src/lib/netlist.ts`).
 - Contract views: `netlist(id)`, `circuitInfo(id)`, `ownerOf(id)`, `eval(uint256,bytes)` (selector `0x934d06ea`), bits packed LSB-first (`src/lib/bits.ts`).
 - RPC: `https://rpc.xlayer.tech` with `https://xlayerrpc.okx.com` fallback, batches of 10 (the public cap) via viem (`src/lib/xlayer.ts`).
-- Styles are all in `src/styles.css` (tokens at the top).
+- Styles are all in `src/styles.css` (tokens at the top, from the v1 design pack). Accent and logo are swapped in `src/brand.ts` (default accent `#C8FF6A`, placeholder wordmark) without touching the rest of the UI.
+- Hash routes: `#/<cpu>/<id>?vs=<id>&view=lookup|lineage|copy|replay`. The landing lives at `#/` (and section hashes like `#story`). The `view` param is optional; existing `#/<cpu>/<id>?vs=` links still work.
 
 ## Develop
 
