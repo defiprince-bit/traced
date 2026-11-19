@@ -1,0 +1,93 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Traced, for TapeOut</title>
+<!--HEAD-->
+<style>
+.deco{position:absolute;left:0;right:0;top:64px;height:620px;z-index:0;pointer-events:none;overflow:visible}
+.deco path{fill:none;stroke:var(--copper-dim);stroke-width:2;opacity:.75}
+.deco .via-ring{fill:var(--substrate);stroke:var(--copper-dim);stroke-width:1.6}.deco .via-hole{fill:var(--copper-dim)}
+.deco .pad{fill:var(--copper-dim);opacity:.8}
+.hero{position:relative;z-index:1;max-width:880px;margin:0 auto;padding:88px 24px 40px;text-align:center}
+.hero .label{display:inline-flex;align-items:center;gap:10px}
+.hero .label i{width:18px;height:2px;background:var(--copper)}
+.hero h1{margin:22px 0 18px;font:400 var(--text-hero)/1.02 var(--font-display);letter-spacing:-.02em;color:var(--silk)}
+.hero h1 em{font-style:italic;color:var(--copper)}
+.hero .lede{margin:0 auto 36px;max-width:600px;font-size:var(--text-md);color:var(--silk-2)}
+.hero .lookup{max-width:760px;margin:0 auto;text-align:left}
+.ex{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:20px;flex-wrap:wrap}
+.ex .label{margin-right:4px}
+.tiles{position:relative;z-index:1;display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:1120px;margin:40px auto 0;padding:0 32px}
+.tile{padding:22px 24px 24px;border-radius:var(--r-lg);border:1px solid var(--etch);background:color-mix(in srgb,var(--wafer) 88%,transparent)}
+.tile svg{display:block;height:64px;margin-bottom:18px}
+.tile h3{margin:0 0 6px;font:italic 400 24px/1.1 var(--font-display)}
+.tile p{margin:0;color:var(--silk-2);font-size:var(--text-sm)}
+.ft{position:relative;z-index:1;display:flex;justify-content:center;gap:24px;padding:40px 24px 48px}
+.mobile-only{display:none}
+@media (max-width:767px){
+ .topbar{padding:0 16px;height:56px}.topbar .nav-link,.topbar .ro-pill span{display:none}
+ .hero{padding:44px 16px 24px;text-align:left}
+ .hero h1{font-size:44px;margin:16px 0 14px}
+ .hero .lede{font-size:var(--text-base);margin:0 0 24px}
+ .hero .lookup{flex-direction:column}
+ .lookup .proc{border-right:0;border-bottom:1px solid var(--etch);padding:10px 12px;min-width:0}
+ .lookup .cid{padding:14px 12px}
+ .lookup .btn{width:100%}
+ .ex{justify-content:flex-start}.ex .label{width:100%}
+ .tiles{grid-template-columns:1fr;padding:0 16px;margin-top:24px}
+ .tile{display:grid;grid-template-columns:72px 1fr;gap:4px 14px;align-items:center;padding:16px}
+ .tile svg{grid-row:1/3;height:48px;margin:0;width:72px}
+ .deco{display:none}.mobile-only{display:block}
+ .ft{flex-direction:column;gap:6px;padding:28px 16px 36px}
+}
+</style></head><body>
+<div class="pcb-bg"></div>
+<header class="topbar">
+  <a class="brand" href="#">{{MARK}}<b>Traced</b><small>for TapeOut</small></a>
+  <span class="spacer"></span>
+  <a class="nav-link" href="#how">How it works</a>
+  <span class="ro-pill"><i></i>X Layer<span> · read-only</span></span>
+</header>
+<svg class="deco" id="deco" viewBox="0 0 1440 620" aria-hidden="true"></svg>
+<main>
+<section class="hero">
+  <span class="label"><i></i>Traced, for TapeOut<i></i></span>
+  <h1>Every circuit,<br><em>traced back to its source.</em></h1>
+  <p class="lede">Paste a circuit ID. See what it’s built from, who reused it, and whether it’s a silent copy of something older.</p>
+  <form class="lookup" onsubmit="return false" aria-label="Look up a circuit">
+    <label class="proc"><span class="label">Processor</span><span class="v">Cerebr <span class="mono">CRBR</span><svg class="chev" viewBox="0 0 12 12" fill="none"><path d="M3 4.5 6 7.5 9 4.5" stroke="currentColor" stroke-width="1.4"/></svg></span></label>
+    <label class="cid"><span class="hash">#</span><input placeholder="Circuit ID, e.g. 5" aria-label="Circuit ID" inputmode="numeric"></label>
+    <a class="btn btn-copper btn-lg" href="lookup.html#5">Trace it <span class="kbd">⏎</span></a>
+  </form>
+  <div class="ex"><span class="label">Try an example</span>
+    <a class="chip" href="lookup.html#5"><span class="pin"></span><span class="mono">#5</span> XOR, built from 3 parts</a>
+    <a class="chip" href="lookup.html#34"><span class="pin"></span><span class="mono">#4 vs #34</span> a silent copy</a>
+    <a class="chip" href="lookup.html#12"><span class="pin"></span><span class="mono">#12</span> 11 REFs</a>
+  </div>
+</section>
+<section class="tiles" id="how">
+  <div class="tile"><svg viewBox="0 0 120 64" fill="none"><g stroke="var(--copper)" stroke-width="2" fill="none"><path d="M20 14v10h40v10M60 14v20M100 14v10H60"/><path d="M60 50v8" stroke-dasharray="3 3"/></g><g fill="var(--die)" stroke="var(--silk-3)" stroke-width="1.4"><rect x="8" y="2" width="24" height="12" rx="2"/><rect x="48" y="2" width="24" height="12" rx="2"/><rect x="88" y="2" width="24" height="12" rx="2"/></g><rect x="42" y="34" width="36" height="16" rx="3" fill="var(--die)" stroke="var(--copper)" stroke-width="1.6"/><rect x="56" y="39" width="8" height="6" rx="1" fill="var(--signal)"/></svg><h3>Lineage</h3><p>The circuits it reuses by REF, and the ones that reuse it.</p></div>
+  <div class="tile"><svg viewBox="0 0 120 64" fill="none"><rect x="6" y="14" width="44" height="36" rx="4" fill="var(--die)" stroke="var(--original)" stroke-width="1.6"/><rect x="70" y="14" width="44" height="36" rx="4" fill="var(--die)" stroke="var(--alert)" stroke-width="1.6"/><g fill="var(--silk-3)"><rect x="14" y="22" width="28" height="3" rx="1"/><rect x="14" y="30" width="20" height="3" rx="1"/><rect x="14" y="38" width="24" height="3" rx="1"/><rect x="78" y="22" width="28" height="3" rx="1"/><rect x="78" y="30" width="20" height="3" rx="1"/><rect x="78" y="38" width="24" height="3" rx="1"/></g><path d="M55 28h10M55 36h10" stroke="var(--silk-2)" stroke-width="2"/><rect x="40" y="8" width="12" height="12" rx="2" fill="var(--original)"/></svg><h3>Copy check</h3><p>Byte-identical netlists with no REF back. The earliest is marked as the likely original.</p></div>
+  <div class="tile"><svg viewBox="0 0 120 64" fill="none"><g font-family="JetBrains Mono" font-size="11" font-weight="600"><g fill="var(--die)" stroke="var(--etch-strong)"><rect x="4" y="6" width="16" height="16" rx="3"/><rect x="24" y="6" width="16" height="16" rx="3"/><rect x="4" y="28" width="16" height="16" rx="3"/><rect x="24" y="28" width="16" height="16" rx="3"/></g><rect x="56" y="6" width="16" height="16" rx="3" fill="var(--signal-veil)" stroke="var(--signal)"/><rect x="56" y="28" width="16" height="16" rx="3" fill="var(--die)" stroke="var(--etch-strong)"/><text x="9" y="18" fill="var(--silk-3)">0</text><text x="29" y="18" fill="var(--silk-3)">1</text><text x="9" y="40" fill="var(--silk-3)">1</text><text x="29" y="40" fill="var(--silk-3)">1</text><text x="61" y="18" fill="var(--signal)">1</text><text x="61" y="40" fill="var(--silk-3)">0</text></g><path d="M86 14l5 5 9-10M86 36l5 5 9-10" stroke="var(--signal)" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><h3>Replay</h3><p>Run it free in your browser and compare its truth table with its twin or parent.</p></div>
+</section>
+<div class="ft"><span class="foot">Read-only. Every lookup is a free view call; nothing is signed or sent.</span><span class="foot">Not affiliated with TapeOut or X Layer.</span></div>
+</main>
+<script>/*TRACEJS*/
+(function(){
+ const svg=document.getElementById('deco');
+ const W=innerWidth, top=64; svg.setAttribute('viewBox',`0 0 ${W} 620`);
+ const b=document.querySelector('.hero .lookup').getBoundingClientRect();
+ const L=b.left-2, R=b.right+2, y0=b.top-top+b.height/2;
+ const ys=[y0-16,y0,y0+16];
+ const routes=[
+  [[0,150],[L-210,150],[L-210,250],[L-110,250],[L-110,ys[0]],[L,ys[0]]],
+  [[0,330],[L-250,330],[L-250,ys[1]],[L,ys[1]]],
+  [[0,500],[L-150,500],[L-150,ys[2]],[L,ys[2]]],
+  [[W,120],[R+200,120],[R+200,230],[R+110,230],[R+110,ys[0]],[R,ys[0]]],
+  [[W,300],[R+240,300],[R+240,ys[1]],[R,ys[1]]],
+  [[W,510],[R+150,510],[R+150,ys[2]],[R,ys[2]]],
+ ];
+ routes.forEach(r=>{el('path',{d:tracePath(r,10)},svg);const e=r[r.length-1],left=r[0][0]===0;el('rect',{x:left?e[0]-8:e[0],y:e[1]-4,width:8,height:8,rx:1.5,class:'pad'},svg);});
+ routes.forEach(r=>{const p=r[2];via(svg,p[0],p[1]);});
+ routes.forEach((r,i)=>pulse(svg,r,{delay:300+i*480,dur:1700,loop:true,gap:2600}));
+})();
+</script>
+</body></html>
