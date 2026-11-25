@@ -55,3 +55,6 @@ Do not tag `@TapeOut_X`, `@TapeOut`, `@ZeroTapeOut`, `@okx`, or `@NairaGuardHQ`.
 5. **Re-check the two official tags** just before posting, in case verification or handles change.
 6. **Hold the launch** until about 1–3 Dec 2026, and do not post while the repo or site is still private.
 7. Event submission (separate from this X launch) remains the official Google Form, provisionally by 7 Dec 2026, 23:59 UTC (8 Dec 2026, 00:59 WAT), on [the Build X event page](https://web3.okx.com/xlayer/build-x-series).
+
+## Status (19 Nov 2026)
+Account created by Douglas: **@TracedXyz** (id 2123333463088492544), created 19 Nov 2026 ~09:33 WAT. Avatar, banner and bio are live. 0 posts. Pinned thread stays unposted until Douglas says go (~1–3 Dec).

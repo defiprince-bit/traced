@@ -1,6 +1,6 @@
 # Traced X profile fields
 
-Draft only. Do not create the account or publish these fields until Douglas reviews them and the site is public. The mockups in this folder use the recommended handle `@TracedXyz` as a placeholder.
+Draft only. Do not create the account or publish these fields until Douglas reviews them and the site is public. The mockups in this folder use the live handle `@TracedXyz` (created 19 Nov 2026).
 
 ## Display name
 
