@@ -33,7 +33,7 @@ Display name: **Traced**
 Traced, for TapeOut. Every circuit, traced back to its source. Read-only lookup for TapeOut circuits on X Layer. No wallet, no sign-up.
 ```
 
-135 characters. Location: `X Layer`. Website: `[site link]` until the site is public.
+135 characters. Location: `X Layer`. Website: `https://traced-mu.vercel.app` (site is live). The GitHub repo visibility is unchanged.
 
 ## Avatar and banner (summary)
 

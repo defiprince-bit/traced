@@ -11,14 +11,16 @@ Traced is a read-only lookup for [TapeOut](https://tapeout.pro) circuits on **X 
 - **Class:** `library`, `wrapper`, `toy`, `miner-sized`, `composed` or `flat` (rules below).
 - **Replay:** runs `eval()` for free in your browser over `eth_call`, prints the truth table, and compares it row by row with a twin, a parent, or any circuit you pick.
 
+Live site: [https://traced-mu.vercel.app](https://traced-mu.vercel.app)
+
 Demo pages (Cerebr, `0xB04EB79D1A5EECaabAAfF7B77d7c27578EE693FF`):
 
 | Page | What it shows |
 |---|---|
-| `#/0xb04eb79d1a5eecaabaaff7b77d7c27578ee693ff/5?vs=4` | XOR built from 3 REFs (#2 OR, #3 NAND, #1 AND); replay matches flat XOR #4 on all 4 inputs |
-| `#/0xb04eb79d1a5eecaabaaff7b77d7c27578ee693ff/12` | Line detector with 11 REFs (#9 ×8, #10 ×2, #2) |
-| `#/0xb04eb79d1a5eecaabaaff7b77d7c27578ee693ff/4?vs=34` | The original 6-NAND XOR, with a byte-identical copy (#34, different owner, no REF) |
-| `#/0xb04eb79d1a5eecaabaaff7b77d7c27578ee693ff/3` | A 1-NAND library cell cited 109 times |
+| `https://traced-mu.vercel.app/#/0xb04eb79d1a5eecaabaaff7b77d7c27578ee693ff/5?vs=4` | XOR built from 3 REFs (#2 OR, #3 NAND, #1 AND); replay matches flat XOR #4 on all 4 inputs |
+| `https://traced-mu.vercel.app/#/0xb04eb79d1a5eecaabaaff7b77d7c27578ee693ff/12` | Line detector with 11 REFs (#9 ×8, #10 ×2, #2) |
+| `https://traced-mu.vercel.app/#/0xb04eb79d1a5eecaabaaff7b77d7c27578ee693ff/4?vs=34` | The original 6-NAND XOR, with a byte-identical copy (#34, different owner, no REF) |
+| `https://traced-mu.vercel.app/#/0xb04eb79d1a5eecaabaaff7b77d7c27578ee693ff/3` | A 1-NAND library cell cited 109 times |
 
 ## Class rules (Traced heuristics, not protocol labels; first match wins)
 

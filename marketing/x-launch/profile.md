@@ -26,9 +26,9 @@ Not a geographic place. It matches where the product reads circuits (X Layer mai
 
 ## Website
 
-**[site link]**
+**https://traced-mu.vercel.app**
 
-Placeholder only. The site and repo stay private until Douglas says go. Do not paste a staging, preview or localhost URL into the public profile. When the site is public, use the production URL (X will wrap it as a t.co link).
+The site is live. Paste this production URL into the X profile (X will wrap it as a t.co link). Do not use a staging, preview or localhost URL. The GitHub repo visibility is unchanged.
 
 ## Avatar and banner to upload
 
