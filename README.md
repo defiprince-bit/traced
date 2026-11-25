@@ -21,6 +21,7 @@ Demo pages (Cerebr, `0xB04EB79D1A5EECaabAAfF7B77d7c27578EE693FF`):
 | `https://traced-mu.vercel.app/#/0xb04eb79d1a5eecaabaaff7b77d7c27578ee693ff/12` | Line detector with 11 REFs (#9 ×8, #10 ×2, #2) |
 | `https://traced-mu.vercel.app/#/0xb04eb79d1a5eecaabaaff7b77d7c27578ee693ff/4?vs=34` | The original 6-NAND XOR, with a byte-identical copy (#34, different owner, no REF) |
 | `https://traced-mu.vercel.app/#/0xb04eb79d1a5eecaabaaff7b77d7c27578ee693ff/3` | A 1-NAND library cell cited 109 times |
+| `https://traced-mu.vercel.app/#/0xb04eb79d1a5eecaabaaff7b77d7c27578ee693ff/14?vs=35` | A circuit with latches, replayed with free `step()` calls: 8/8 match with twin #35 |
 
 ## Class rules (Traced heuristics, not protocol labels; first match wins)
 
@@ -39,7 +40,7 @@ Demo pages (Cerebr, `0xB04EB79D1A5EECaabAAfF7B77d7c27578EE693FF`):
 - **"Likely original" is timing, not a verdict.** Within a twin group, Traced takes the lowest id per processor (ids grow over time), then compares those across processors by tape-out block. Anyone can write a 1-NAND inverter independently, so toy twins are labelled "same bytes as", not "silent copy".
 - **The index is a snapshot.** It covers **11,749** circuits — every circuit then on the official factory — at X Layer block **75,628,053** (11 Nov 2026): 1,514 REF uses and 345 twin groups. The three large processors that the research pass skipped are now included in full: 9898 (1,022), TAPELIQUID (1,387) and FAB-Genisis (6,953). Their circuit records live in lazily loaded `public/data/c/<cpu>.json` shards so the core `index.json` stays smaller. A later chain head had FAB-Genisis `nextId` 6,954 (one circuit after this snapshot); that circuit is not in the index. Tape-out transactions are still only known for 1,191 circuits (Cerebr and the earliest member of each twin group from the earlier block search) — most of the newly indexed circuits have no tape-out tx in the index yet, so some twin originals stay “unknown” across processors.
 - **Tape-out transactions** are known for 1,191 circuits: all 38 on Cerebr (17 match the Cerebr catalog's verified receipts exactly) and the earliest member per processor of every twin group. They were found by binary-searching `nextId()` with historical `eth_call` and reading the `TapedOut` log in that one block, because the public RPC caps `eth_getLogs` ranges.
-- **Sequential circuits** (with latches) can't be replayed with `eval()`. `step()` replay isn't in this MVP.
+- **Sequential circuits** (with latches) can't be replayed with `eval()`, so Traced replays them with free `step()` calls instead, tick by tick, and compares the result with a twin (for example Cerebr #14 matches its twin #35 on 8 of 8 rows).
 - Read-only: no wallet, no signing, no transactions.
 
 ## How it works
