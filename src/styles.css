@@ -144,7 +144,7 @@ html.shot *,html.shot *::before,html.shot *::after{animation-duration:0s!importa
 .landing .sec{position:relative;border-top:1px solid var(--hairline)}
 .landing .hdr{position:sticky;top:0;z-index:50;height:64px;background:rgba(11,11,11,.72);backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--hairline)}
 .landing .hdr .in{max-width:var(--frame);height:100%;margin:0 auto;display:flex;align-items:center;gap:24px;padding:0 32px}
-.landing .nav{display:flex;gap:30px;margin:0 auto}
+.landing .nav{display:flex;gap:22px;margin:0 auto}
 .landing .nav a{font:500 var(--text-xs)/1 var(--font-mono);letter-spacing:var(--track-label);text-transform:uppercase;color:var(--fg-2);text-decoration:none}
 .landing .nav a::before{content:"/ ";color:var(--fg-3);margin-right:4px}
 .landing .nav a:hover{color:var(--fg)}
@@ -214,6 +214,15 @@ html.shot *,html.shot *::before,html.shot *::after{animation-duration:0s!importa
 .landing .ctr .u{font-size:var(--text-sm);color:var(--fg-2)}
 .landing .ctr .tag{margin-left:auto}
 .landing .minibadges{margin-top:auto;padding-top:28px;display:flex;flex-wrap:wrap;gap:6px}
+/* ---------- 3b who it's for ---------- */
+.landing .who .sh{align-items:end}
+.landing .wgrid{display:grid;grid-template-columns:repeat(2,1fr);border-top:1px solid var(--hairline)}
+.landing .wc{position:relative;padding:32px 36px 34px;border-bottom:1px solid var(--hairline)}
+.landing .wc:nth-child(even){border-left:1px solid var(--hairline)}
+.landing .wc:nth-child(n+3){border-bottom:0}
+.landing .wc .mono{font-size:var(--text-xs);color:var(--lume)}
+.landing .wc h3{font-size:var(--text-lg);letter-spacing:-.01em;margin:14px 0 8px}
+.landing .wc p{margin:0;color:var(--fg-2);font-size:var(--text-sm);max-width:420px}
 /* ---------- 4 badges horizontal ---------- */
 .landing .badges{height:340vh}
 .landing .badges .pin{display:flex;flex-direction:column;justify-content:center}
@@ -324,8 +333,8 @@ html.static .dots{display:none}
  .landing .widget.hide-m{display:none}
  .landing .sh{flex-direction:column;align-items:flex-start;gap:16px;padding:64px 20px 32px}
  .landing h2,.landing .sh h2{font-size:36px}
- .landing .fgrid,.landing .hgrid{grid-template-columns:1fr}
- .landing .fc,.landing .hc{min-height:0;padding:26px 20px;border-left:0!important;border-bottom:1px solid var(--hairline)!important}
+ .landing .fgrid,.landing .hgrid,.landing .wgrid{grid-template-columns:1fr}
+ .landing .fc,.landing .hc,.landing .wc{min-height:0;padding:26px 20px;border-left:0!important;border-bottom:1px solid var(--hairline)!important}
  .landing .badges{height:auto}.landing .badges .pin{position:relative;height:auto;padding:0 0 56px}
  .landing .badges .sh{padding:64px 20px 28px}
  .landing .track{overflow-x:auto;scroll-snap-type:x mandatory;padding:0 20px 8px;gap:14px;transform:none!important;scrollbar-width:none}

@@ -13,6 +13,7 @@ import { Coverage } from '../ui/Coverage';
 const NAV = [
   { href: '#story', label: 'Story' },
   { href: '#features', label: 'Features' },
+  { href: '#who', label: 'Who' },
   { href: '#badges', label: 'Badges' },
   { href: '#trace-back', label: 'Trace-back' },
   { href: '#honesty', label: 'Honesty' },
@@ -191,6 +192,38 @@ export default function Landing({ ix, onTrace }: { ix: LoadedIndex; onTrace: (cp
           <i className="x tl" /><i className="x tr" />
         </section>
 
+
+        {/* 3b WHO */}
+        <section className="sec who" id="who">
+          <div className="sh">
+            <div><span className="eyebrow">Who it's for</span><h2 className="rv">For people who care where a circuit <span className="g">came from.</span></h2></div>
+            <p className="lede rv">A free lookup today. Alerts and a maintained index are how it could earn its keep later.</p>
+          </div>
+          <div className="wgrid">
+            <div className="wc rv">
+              <span className="mono">01</span>
+              <h3>Circuit builders</h3>
+              <p>See who reused your work with a REF, and who copied the same netlist bytes without credit.</p>
+            </div>
+            <div className="wc rv">
+              <span className="mono">02</span>
+              <h3>Processor owners</h3>
+              <p>Spot identical netlists on your processor, and compare them with the official-factory census.</p>
+            </div>
+            <div className="wc rv">
+              <span className="mono">03</span>
+              <h3>Judges and boards</h3>
+              <p>Check originality before you rank a circuit: lineage, copy-twins, and a free replay.</p>
+            </div>
+            <div className="wc rv">
+              <span className="mono">04</span>
+              <h3>Library users</h3>
+              <p>Find cells other people already cite, and see the family tree before you reuse one.</p>
+            </div>
+          </div>
+          <i className="x tl" /><i className="x tr" />
+        </section>
+
         {/* 4 BADGES */}
         <section className="sec badges" id="badges">
           <div className="pin" id="badgePin">
@@ -281,6 +314,7 @@ export default function Landing({ ix, onTrace }: { ix: LoadedIndex; onTrace: (cp
           <nav className="links" aria-label="Footer">
             <a href={OPEN}>Open app</a>
             <a href="#story">Story</a>
+            <a href="#who">Who it's for</a>
             <a href="#honesty">Honesty</a>
             <a href="#top">Top</a>
           </nav>

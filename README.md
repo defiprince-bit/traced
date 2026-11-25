@@ -23,6 +23,54 @@ Demo pages (Cerebr, `0xB04EB79D1A5EECaabAAfF7B77d7c27578EE693FF`):
 | `https://traced-mu.vercel.app/#/0xb04eb79d1a5eecaabaaff7b77d7c27578ee693ff/3` | A 1-NAND library cell cited 109 times |
 | `https://traced-mu.vercel.app/#/0xb04eb79d1a5eecaabaaff7b77d7c27578ee693ff/14?vs=35` | A circuit with latches, replayed with free `step()` calls: 8/8 match with twin #35 |
 
+
+## Who it's for
+
+- **Circuit builders** who want credit when others reuse their work, and a way to see silent copies of the same netlist bytes.
+- **Processor owners and curators** who want to spot identical netlists on their processor and across the official-factory census.
+- **Judges and leaderboards** who need to check originality before ranking a circuit.
+- **Developers picking library cells** who want to see a cell's REF family, and how often it is already cited, before they reuse it.
+
+How we'll reach them: the TapeOut and X Layer communities on X and Telegram, the [@TracedXyz](https://x.com/TracedXyz) account, and the shareable lookup links already in the app (`#/<processor>/<id>`). Embeddable badges are a planned follow-on, not shipping today.
+
+## Business model
+
+The core lookup stays free: no wallet, no sign-up, and no charge to read a circuit, follow its lineage, check copy-twins, or replay it in the browser.
+
+Proposed revenue, not live today:
+
+1. **Paid API and indexer access**, plus **copy or citation alerts** ("someone reused or copied your circuit"), for builders and processor owners who want a fresher index than the public snapshot and a ping when the graph around their circuits changes.
+2. **Later: attribution or royalty rails for REF reuse** — optional infrastructure so credited reuse can carry a payment. This is a direction, not a shipped feature.
+
+Why someone would pay and keep using it: the public site is a snapshot (currently X Layer block **75,628,053**, 11 Nov 2026). Alerts and a maintained index are only useful if they stay current; that's the retention loop. Traced does not sell usage counts — `eval()` and `step()` leave no on-chain trace.
+
+## TapeOut features used
+
+Traced is a read-only client of TapeOut circuits on **X Layer mainnet** (chain 196). It does not use DeWEB, FabX, TapeCode, TapeKit or TapeSend.
+
+It reads the official processor factory and the circuits minted through it:
+
+| What | Address |
+|---|---|
+| Official factory | `0x1f09daefa827f02cbb40967cc91b259763760761` |
+| Cerebr (default demo processor) | `0xB04EB79D1A5EECaabAAfF7B77d7c27578EE693FF` |
+| 9898 | `0x60918c204f3c94630d3d793738fc36293c8405d6` |
+| TAPELIQUID | `0x69f663931209096037474d7c20402232e5c762ca` |
+| FAB-Genisis | `0x87bfca3494aa228ff589ab9b642143a5e8c8f9a6` |
+
+On each processor it calls the view methods `netlist(id)`, `circuitInfo(id)`, `ownerOf(id)`, `eval(id, inputs)` and `step(id, state, inputs)` over `eth_call` (nothing is signed or sent). REF parents are decoded from the on-chain netlist bytes. Cited-by children and copy-twins come from a prebuilt index of the official-factory census at block 75,628,053 (11,749 circuits). The addresses above are the factory plus the processors the demos use; the rest of the census is in `public/data/index.json`.
+
+## Built during the event
+
+Traced is a new project, started and built during the X Layer TapeOut Accelerate window (16 Oct – 7 Dec 2026). The first commit is dated **11 Nov 2026**. Work in this repository through **25 Nov 2026** includes:
+
+- Circuit lookup, REF lineage (a multi-level family tree), copy-twin grouping, and free in-browser `eval()` replay
+- An official-factory index of 11,749 circuits at block 75,628,053, including the previously skipped large processors 9898, TAPELIQUID and FAB-Genisis
+- Latch-circuit replay with free `step()` calls
+- The landing page, brand, and the public site at [https://traced-mu.vercel.app](https://traced-mu.vercel.app)
+
+It is not a pre-existing product with a thin event wrapper.
+
 ## Class rules (Traced heuristics, not protocol labels; first match wins)
 
 | Class | Rule |
