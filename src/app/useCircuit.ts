@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import type { LoadedIndex } from '../useIndex';
-import { readCircuit, type LiveCircuit } from '../lib/xlayer';
+import { isMissingCircuitError, readCircuit, type LiveCircuit } from '../lib/xlayer';
 import { decodeNetlist, refParents, type DecodedNetlist } from '../lib/netlist';
 import { classify, type CircuitClass } from '../lib/classify';
 import { keyOf } from '../lib/format';
@@ -70,7 +70,7 @@ export function useCircuit(ix: LoadedIndex, route: Route): CircuitModel {
     const tx = rec?.x ?? null;
     const isOriginal = !!(group?.original && group.original[0] === cpu && group.original[1] === id);
     const silent = !!(group && group.ref === 0);
-    const notFound = !loading && !live && !!err && /No circuit #/.test(err);
+    const notFound = !loading && !live && !!err && isMissingCircuitError(err);
     return { cpu, id, live, err, loading, rec, decoded, parents, children, hash, group, cls, indexed: !!rec, owner, pins, tx, isOriginal, silent, notFound };
   }, [ix, cpu, id, live, err, loading]);
 }

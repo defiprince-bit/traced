@@ -37,16 +37,42 @@ export interface LiveCircuit {
   owner: string | null;
 }
 
+
+function errText(e: unknown): string {
+  if (e && typeof e === 'object') {
+    const o = e as { shortMessage?: string; details?: string; message?: string; reason?: string };
+    return [o.shortMessage, o.details, o.reason, o.message].filter(Boolean).join(' ');
+  }
+  return String(e);
+}
+
+/** True when the processor answered, but this id is not taped out. */
+export function isMissingCircuitError(e: unknown): boolean {
+  const m = errText(e);
+  if (/No circuit #\d+/.test(m)) return true;
+  if (/timeout|TIMED_OUT|failed to fetch|network|HTTP/i.test(m) && !/\bno circuit\b/i.test(m)) return false;
+  return /\bno circuit\b/i.test(m) || /empty netlist/i.test(m);
+}
+
+export function missingCircuitMessage(id: number): string {
+  return `No circuit #${id} on this CPU.`;
+}
+
 export async function readCircuit(cpu: `0x${string}`, id: number): Promise<LiveCircuit> {
   const big = BigInt(id);
-  const [nl, info, owner] = await Promise.all([
-    client.readContract({ address: cpu, abi: circuitsAbi, functionName: 'netlist', args: [big] }),
-    client.readContract({ address: cpu, abi: circuitsAbi, functionName: 'circuitInfo', args: [big] }),
-    client.readContract({ address: cpu, abi: circuitsAbi, functionName: 'ownerOf', args: [big] }).catch(() => null),
-  ]);
-  if (nl === '0x') throw new Error(`No circuit #${id} on this CPU (empty netlist).`);
-  const [nIn, nOut, nState, gateCount] = info;
-  return { netlist: nl, hash: keccak256(nl), nIn, nOut, nState, gateCount, owner: owner ? owner.toLowerCase() : null };
+  try {
+    const [nl, info, owner] = await Promise.all([
+      client.readContract({ address: cpu, abi: circuitsAbi, functionName: 'netlist', args: [big] }),
+      client.readContract({ address: cpu, abi: circuitsAbi, functionName: 'circuitInfo', args: [big] }),
+      client.readContract({ address: cpu, abi: circuitsAbi, functionName: 'ownerOf', args: [big] }).catch(() => null),
+    ]);
+    if (nl === '0x') throw new Error(missingCircuitMessage(id));
+    const [nIn, nOut, nState, gateCount] = info;
+    return { netlist: nl, hash: keccak256(nl), nIn, nOut, nState, gateCount, owner: owner ? owner.toLowerCase() : null };
+  } catch (e) {
+    if (isMissingCircuitError(e)) throw new Error(missingCircuitMessage(id));
+    throw e;
+  }
 }
 
 export async function nextId(cpu: `0x${string}`): Promise<number> {
