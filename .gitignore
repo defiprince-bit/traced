@@ -10,3 +10,4 @@ node_modules/
 # Design pack archives (keep untracked)
 traced-brand-kit.tar.gz
 traced-design.tar.gz
+.vercel

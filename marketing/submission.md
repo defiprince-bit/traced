@@ -6,7 +6,6 @@ Every figure below is from the README or the on-chain index. Nothing here claims
 
 ## Repo visibility (read this first)
 
-The GitHub repo **https://github.com/defiprince-bit/traced** is **private**. The live site and this write-up are enough for a website/tool submission, but judges who want to read the code will be blocked unless the repo is opened or they are added as guests.
 
 Do not change visibility from this kit. If Douglas wants judges to see the source, either:
 
@@ -43,7 +42,6 @@ https://x.com/TracedXyz
 https://github.com/defiprince-bit/traced
 ```
 
-(Private as of 25 Nov 2026. See the note at the top.)
 
 ## Demo pages (optional extras if the form has a video or links field)
 
@@ -66,7 +64,7 @@ The problem: a TapeOut circuit can reuse another by REF, which writes the credit
 
 Live site: https://traced-mu.vercel.app
 X: https://x.com/TracedXyz
-Repo: https://github.com/defiprince-bit/traced (currently private)
+Repo: https://github.com/defiprince-bit/traced
 
 Target users, and how we will reach them:
 - Circuit builders who want credit when others reuse their work, and a way to see silent copies of the same netlist bytes.
