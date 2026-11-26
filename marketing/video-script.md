@@ -86,7 +86,7 @@ Wait for 8 of 8.
 **On screen:** stay on the landing, or jump to the lookup of #12 if you want the processor name visible. Do not open a wallet.
 
 **Say:**
-> Traced reads existing TapeOut circuits on X Layer mainnet. It talks to the official factory and processors like Cerebr, and it only uses view calls: netlist, owner, eval, and step. It does not take custody of a circuit, and it does not yet sit on DeWEB or the other ecosystem tools. The site is traced-mu.vercel.app, and we’re at TracedXyz.
+> Traced reads existing TapeOut circuits on X Layer mainnet. It talks to the official factory and processors like Cerebr, and it only uses view calls: netlist, owner, eval, and step. It never takes custody of a circuit. The site is traced-mu.vercel.app, and we’re at TracedXyz.
 
 ### 2:42–2:45 — End
 **On screen:** hero, or a simple end card if tday adds one: `traced-mu.vercel.app` and `@TracedXyz`.
