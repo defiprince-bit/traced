@@ -75,7 +75,7 @@ export default function AppShell({ ix, route, go }: { ix: LoadedIndex; route: Ro
   else if (model.notFound) body = <NotFoundState cpuName={cpuName} id={route.id} />;
   else if (model.err && !model.live && !model.rec) body = <ErrorState err={model.err} onRetry={() => go({ ...route })} />;
   else if (view === 'lineage') body = <LineageView ix={ix} model={model} list={list} upDepth={upDepth} downDepth={downDepth} onExpandCpu={a => void ix.loadCpu(a)} />;
-  else if (view === 'copy') body = <CopyView ix={ix} model={model} />;
+  else if (view === 'copy') body = <CopyView ix={ix} model={model} vs={route.vs} />;
   else if (view === 'replay') body = <ReplayView ix={ix} model={model} vs={route.vs} onVs={n => go({ ...route, vs: n, view: 'replay' })} />;
   else body = <LookupView ix={ix} model={model} vs={route.vs} />;
 

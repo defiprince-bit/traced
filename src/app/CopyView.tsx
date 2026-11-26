@@ -12,7 +12,42 @@ import { explorerAddr, explorerTx } from '../lib/xlayer';
 import { toHash } from '../route';
 import { IconCopy } from '../ui/icons';
 
-function Filters({ silent, hasGroup, byBlock, cpuName }: { silent: boolean; hasGroup: boolean; byBlock: boolean; cpuName: string }) {
+/** Other twin to name: `vs` when it is a different member of the group, else the first other member. */
+export function namedTwin(
+  cpu: string,
+  id: number,
+  vs: number | null,
+  members: readonly (readonly [string, number, ...unknown[]])[],
+): [string, number] | undefined {
+  const others = members.filter((m) => !(m[0] === cpu && m[1] === id));
+  const pick = vs != null
+    ? (others.find((m) => m[0] === cpu && m[1] === vs) ?? others.find((m) => m[1] === vs) ?? others[0])
+    : others[0];
+  return pick ? [pick[0], pick[1]] : undefined;
+}
+
+export function copyFinding(opts: {
+  id: number;
+  silent: boolean;
+  isOriginal: boolean;
+  originalId: number | null | undefined;
+  namedId: number | null | undefined;
+}): { tag: 'orig' | 'copy' | 'ok'; headline: string } {
+  const { id, silent, isOriginal, originalId, namedId } = opts;
+  if (!silent) return { tag: 'ok', headline: `#${id} shares citations` };
+  if (isOriginal) {
+    return {
+      tag: 'orig',
+      headline: namedId != null ? `#${id} is the likely original of #${namedId}` : `#${id} is the likely original`,
+    };
+  }
+  return {
+    tag: 'copy',
+    headline: originalId != null ? `#${id} is byte-for-byte #${originalId}` : `#${id} is a silent copy`,
+  };
+}
+
+function Filters({ silent, isOriginal, hasGroup, byBlock, cpuName }: { silent: boolean; isOriginal: boolean; hasGroup: boolean; byBlock: boolean; cpuName: string }) {
   const r = (t: string, on = false, n?: number) => (
     <div className={`frow${on ? ' on' : ''}`}><span className="bx" />{t}{n != null ? <span className="n">{n}</span> : null}</div>
   );
@@ -20,8 +55,8 @@ function Filters({ silent, hasGroup, byBlock, cpuName }: { silent: boolean; hasG
     <aside className="card filters" aria-label="Filters">
       <div className="fin">Filter…<span className="kbd">F</span></div>
       <div className="fgrp"><span className="label" style={{ display: 'block', padding: '6px 8px' }}>Verdict</span>
-        {r('Silent copy', silent && hasGroup, silent && hasGroup ? 1 : 0)}
-        {r('Likely original', false, hasGroup ? 1 : 0)}
+        {r('Silent copy', silent && hasGroup && !isOriginal, silent && hasGroup ? 1 : 0)}
+        {r('Likely original', silent && isOriginal, hasGroup ? 1 : 0)}
         {r('Identical citations', false, 0)}
       </div>
       <div className="fgrp"><span className="label" style={{ display: 'block', padding: '6px 8px' }}>Class</span>
@@ -31,12 +66,12 @@ function Filters({ silent, hasGroup, byBlock, cpuName }: { silent: boolean; hasG
         {r('Tape-out block', byBlock)}{r('ID on same processor', hasGroup && !byBlock)}
       </div>
       <div className="fgrp"><span className="label" style={{ display: 'block', padding: '6px 8px' }}>Processor</span>{r(cpuName, true)}</div>
-      <div className="fgrp mob">{r('Silent copy', silent && hasGroup)}{r('Likely original')}{r(cpuName, true)}{r('Flat', hasGroup)}</div>
+      <div className="fgrp mob">{r('Silent copy', silent && hasGroup && !isOriginal)}{r('Likely original', silent && isOriginal)}{r(cpuName, true)}{r('Flat', hasGroup)}</div>
     </aside>
   );
 }
 
-export function CopyView({ ix, model }: { ix: LoadedIndex; model: CircuitModel }) {
+export function CopyView({ ix, model, vs = null }: { ix: LoadedIndex; model: CircuitModel; vs?: number | null }) {
   const { cpu, id, group, silent, rec, isOriginal } = model;
   const cpuName = ix.cpuName(cpu);
   const has = !!(group && group.members.length > 1);
@@ -48,7 +83,7 @@ export function CopyView({ ix, model }: { ix: LoadedIndex; model: CircuitModel }
   if (!has || !group) {
     return (
       <div className="fd">
-        <Filters silent={false} hasGroup={false} byBlock={false} cpuName={cpuName} />
+        <Filters silent={false} isOriginal={false} hasGroup={false} byBlock={false} cpuName={cpuName} />
         <section className="card results">
           <EmptySphere cpuName={cpuName} id={id} refs={model.parents.length} />
         </section>
@@ -60,10 +95,19 @@ export function CopyView({ ix, model }: { ix: LoadedIndex; model: CircuitModel }
   const thisRec = rec;
   const hash = group.hash;
   const other = group.members.filter((m) => !(m[0] === cpu && m[1] === id));
+  const named = namedTwin(cpu, id, vs, group.members);
+  const compared = isOriginal ? named : orig;
+  const finding = copyFinding({
+    id,
+    silent: !!silent,
+    isOriginal,
+    originalId: orig?.[1],
+    namedId: named?.[1],
+  });
 
-  // Twin compare: original on the left, this (or first other) on the right
+  // Twin compare: original on the left, this (or the named other) on the right
   const left = orig ?? [cpu, id] as [string, number];
-  const right = (cpu === left[0] && id === left[1]) ? other[0] : [cpu, id] as [string, number];
+  const right = (cpu === left[0] && id === left[1]) ? (named ?? other[0]) : [cpu, id] as [string, number];
   const leftRec = ix.circuits[`${left[0]}:${left[1]}`];
   const rightRec = ix.circuits[`${right[0]}:${right[1]}`] ?? thisRec;
   const leftIsOrig = !!(orig && orig[0] === left[0] && orig[1] === left[1]);
@@ -94,21 +138,21 @@ export function CopyView({ ix, model }: { ix: LoadedIndex; model: CircuitModel }
 
   return (
     <div className="fd">
-      <Filters silent={!!silent} hasGroup={true} byBlock={byBlock} cpuName={cpuName} />
+      <Filters silent={!!silent} isOriginal={isOriginal} hasGroup={true} byBlock={byBlock} cpuName={cpuName} />
       <div className="results">
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <span className="label">{num(group.members.length - 1)} other{group.members.length - 1 === 1 ? "" : "s"} · {cpuName}</span>
         </div>
         <section className="card finding" aria-label="Finding" data-testid="twins">
           <div className="card-h">
-            <VerdictTag kind={silent ? 'copy' : 'ok'} />
-            <h2>{silent ? `#${id} is byte-for-byte #${orig?.[1] ?? other[0]?.[1]}` : `#${id} shares citations`}</h2>
+            <VerdictTag kind={finding.tag} />
+            <h2>{finding.headline}</h2>
             <span className="label">twin group · {group.members.length}</span>
           </div>
           {silent ? (
-            <div className="verdict copy">
+            <div className={`verdict ${isOriginal ? 'orig' : 'copy'}`}>
               <div className="vt"><IconCopy />Same netlist, no REF back</div>
-              <p data-testid="original">#{id}’s bytes match {orig ? <a href={toHash({ cpu: orig[0], id: orig[1], vs: null, view: 'lookup' })}>#{orig[1]}</a> : 'another circuit'} exactly. Reusing it with credit would have changed the bytes.{isOriginal ? ' This one is the likely original.' : ''}</p>
+              <p data-testid="original">#{id}’s bytes match {compared ? <a href={toHash({ cpu: compared[0], id: compared[1], vs: null, view: 'lookup' })}>#{compared[1]}</a> : 'another circuit'} exactly. Reusing it with credit would have changed the bytes.{isOriginal ? ' This one is the likely original.' : ''}</p>
             </div>
           ) : (
             <div className="verdict clean">

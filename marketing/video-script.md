@@ -23,7 +23,7 @@ The tday capture token used for the Vouch demo expired on 20 Nov 2026. Use a fre
 - Prefetch the five demo routes once so the index and RPC calls are warm:
   - `/#/` landing hero (scroll once through Story and Trace-back so the animations are warm)
   - `/#/0xb04eb79d1a5eecaabaaff7b77d7c27578ee693ff/12?view=lineage`
-  - `/#/0xb04eb79d1a5eecaabaaff7b77d7c27578ee693ff/4?vs=34&view=copy`
+  - `/#/0xb04eb79d1a5eecaabaaff7b77d7c27578ee693ff/34?vs=4&view=copy`
   - `/#/0xb04eb79d1a5eecaabaaff7b77d7c27578ee693ff/4?vs=34&view=replay`
   - `/#/0xb04eb79d1a5eecaabaaff7b77d7c27578ee693ff/14?vs=35&view=replay`
 - Optional warmup: `/#/0xb04eb79d1a5eecaabaaff7b77d7c27578ee693ff/3` (library cell, 109 citations) if there is time at the end of beat 2.
@@ -56,12 +56,12 @@ The tday capture token used for the Vouch demo expired on 20 Nov 2026. Use a fre
 Wait for the family tree. Pan or expand one level if needed, then hold.
 
 **Say:**
-> Here is Cerebr circuit 12, a line detector. The tree shows what it was built on: eleven REF uses, across three parents. Ancestors on one side, the circuits that cite it on the other. Credit is part of the netlist, and Traced just reads it.
+> Here is Cerebr circuit 12, a line detector. The tree shows what it was built on: eleven REF uses, across three parents. Credit is part of the netlist, and Traced just reads it.
 
 ### 1:12–1:35 — Copy-twins (core feature)
 **On screen:** jump to
-`https://traced-mu.vercel.app/#/0xb04eb79d1a5eecaabaaff7b77d7c27578ee693ff/4?vs=34&view=copy`
-Hold on the copy-check of #4 vs #34.
+`https://traced-mu.vercel.app/#/0xb04eb79d1a5eecaabaaff7b77d7c27578ee693ff/34?vs=4&view=copy`
+Hold on the copy-check of #34 vs #4.
 
 **Say:**
 > Circuit 4 is the official six-NAND XOR. Circuit 34 has the same netlist bytes, a different owner, and no REF back. Identical bytes cannot contain a REF to each other, so this is a copy-twin group. Traced marks 4 as the likely original because it was taped out earlier — that is timing, not a verdict.
@@ -71,10 +71,10 @@ Hold on the copy-check of #4 vs #34.
 `https://traced-mu.vercel.app/#/0xb04eb79d1a5eecaabaaff7b77d7c27578ee693ff/4?vs=34&view=replay`
 Wait until the table shows 4 of 4. Then jump to the latch demo:
 `https://traced-mu.vercel.app/#/0xb04eb79d1a5eecaabaaff7b77d7c27578ee693ff/14?vs=35&view=replay`
-Wait for 8 of 8.
+Wait for 24 of 24.
 
 **Say:**
-> Replay runs in your browser, over a free view call, and compares every row with a twin. Four of four, 34 versus 4. Circuits with latches cannot use eval, so Traced steps them tick by tick. Circuit 14 matches its twin, 35, on eight of eight rows. Those free calls leave no trace on-chain, so Traced never counts usage.
+> Replay runs in your browser, over a free view call, and compares every row with a twin. Four of four, 34 versus 4. Circuits with latches cannot use eval, so Traced steps them tick by tick. Circuit 14 matches its twin, 35, on twenty-four of twenty-four steps. Those free calls leave no trace on-chain, so Traced never counts usage.
 
 ### 2:05–2:25 — Who it’s for, and how it could earn money
 **On screen:** jump back to `https://traced-mu.vercel.app/#who` (the “Who it’s for” block). Do not scroll further.
