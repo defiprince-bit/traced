@@ -2,6 +2,7 @@ import { lazy, Suspense, useEffect } from 'react';
 import { useIndex } from './useIndex';
 import { isAppRoute, useRoute, type AppView } from './route';
 import { ACCENT } from './brand';
+import { Spinner } from './ui/Spinner';
 
 const Landing = lazy(() => import('./landing/Landing'));
 const AppShell = lazy(() => import('./app/AppShell'));
@@ -31,10 +32,10 @@ export default function App() {
   }, [app, route.id]);
 
   if (err) return <p className="state" style={{ color: 'var(--copy)', padding: 40 }}>Could not load index: {err}</p>;
-  if (!ix) return <p className="foot" style={{ padding: 40 }}>Loading index…</p>;
+  if (!ix) return <Spinner page label="Loading index…" />;
 
   return (
-    <Suspense fallback={<p className="foot" style={{ padding: 40 }}>Loading…</p>}>
+    <Suspense fallback={<Spinner page label="Loading…" />}>
       {app
         ? <AppShell ix={ix} route={route} go={go} />
         : <Landing ix={ix} onTrace={(cpu, id, view?: AppView, vs?: number | null) => go({ cpu, id, view: view ?? 'lookup', vs: vs ?? null })} />}

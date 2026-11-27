@@ -1,21 +1,14 @@
 import { HonestNote } from '../ui/HonestNote';
 import { ExampleChips } from '../ui/ExampleChips';
+import { Spinner } from '../ui/Spinner';
 
 export function LoadingState({ id }: { id: number }) {
   return (
-    <>
-      <section className="card">
-        <div className="hdc" style={{ paddingBottom: 24 }}>
-          <div className="top"><span className="cidbig"><span>#</span>{id}</span><span className="sk" style={{ width: 110, height: 26 }} /></div>
-          <div className="sk" style={{ width: '58%', height: 26, margin: '16px 0 10px' }} />
-          <div className="sk" style={{ width: '38%', height: 16 }} />
-        </div>
-      </section>
-      <section className="card">
-        <div className="card-h"><h2>Reading X Layer</h2><span className="label">netlist · owner · REFs</span></div>
-        <div className="card-b"><div className="scan" /><p className="foot" style={{ margin: '10px 0 0' }}>Free view calls. Nothing is signed.</p></div>
-      </section>
-    </>
+    <section className="card state" data-testid="loading-state">
+      <span className="label">Circuit #{id}</span>
+      <Spinner label="Reading X Layer" />
+      <p className="foot">Free view calls. Nothing is signed.</p>
+    </section>
   );
 }
 

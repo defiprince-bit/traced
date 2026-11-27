@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { CEREBR, parseHash, toHash } from '../src/route';
+import { CEREBR, HOME_HASH, parseHash, toHash } from '../src/route';
 
 describe('hash routes', () => {
   it('parses the existing #/<cpu>/<id>?vs=<id> form', () => {
@@ -32,6 +32,11 @@ describe('start-screen routing', () => {
     expect(isAppRoute('')).toBe(false);
     expect(isAppRoute('#story')).toBe(false);
     expect(isAppRoute('#top')).toBe(false);
+  });
+  it('home hash clears lookup state and is not an app route', () => {
+    expect(HOME_HASH).toBe('#top');
+    expect(isAppRoute(HOME_HASH)).toBe(false);
+    expect(parseHash(HOME_HASH)).toEqual({ cpu: CEREBR, id: null, vs: null, view: null, landing: 'top' });
   });
   it('still parses a circuit id after the start-screen form', () => {
     expect(parseHash(`#/${CEREBR}/14?view=replay`)).toEqual({

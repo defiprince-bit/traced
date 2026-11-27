@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import type { LoadedIndex } from '../useIndex';
-import { toHash, type AppView, type Route } from '../route';
+import { HOME_HASH, toHash, type AppView, type Route } from '../route';
 import { Wordmark } from '../ui/Wordmark';
+import { HomeButton } from '../ui/HomeButton';
 import { LookupBar } from '../ui/LookupBar';
-import { IconHome, IconLookup, IconLineage, IconCopies, IconReplay, IconHonesty } from '../ui/icons';
+import { IconLookup, IconLineage, IconCopies, IconReplay, IconHonesty } from '../ui/icons';
 import { useCircuit } from './useCircuit';
 import { LookupView } from './LookupView';
 import { LineageView, LineageToggle, DepthToggle, DEFAULT_DEPTHS } from './LineageView';
@@ -82,11 +83,12 @@ export default function AppShell({ ix, route, go }: { ix: LoadedIndex; route: Ro
   return (
     <div className="shell">
       <aside className="side" aria-label="App navigation">
-        <Wordmark href="#top" />
+        <Wordmark href={HOME_HASH} />
         <div className="newl">
           <a className="btn btn-lume" href={toHash({ cpu, id: null, vs: null, view: null })}>New lookup</a>
           <a className="btn sq" href={toHash({ cpu, id: null, vs: null, view: null })} aria-label="New lookup"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M7 2v10M2 7h10" stroke="currentColor" strokeWidth="1.6"/></svg></a>
         </div>
+        <HomeButton variant="nav" />
         {nav}
         <div className="proc-box">
           <span className="label">Processor</span>
@@ -99,10 +101,10 @@ export default function AppShell({ ix, route, go }: { ix: LoadedIndex; route: Ro
           <div className="live"><i />X Layer · read-only</div>
         </div>
       </aside>
-      <header className="mtop"><Wordmark href="#top" compact /><span className="ro"><i />Read-only</span></header>
+      <header className="mtop"><Wordmark href={HOME_HASH} compact /><HomeButton variant="bar" /><span className="ro"><i />Read-only</span></header>
       <main className="main" id="main">
         <div className="topb">
-          <div className="crumb"><IconHome /><span>›</span><span>{VIEW_TITLE[view]}</span>{route.id != null && <><span>›</span><span className="mono">{cpuName} #{route.id}</span></>}</div>
+          <div className="crumb"><HomeButton variant="crumb" /><span>›</span><span>{VIEW_TITLE[view]}</span>{route.id != null && <><span>›</span><span className="mono">{cpuName} #{route.id}</span></>}</div>
         </div>
         <div className="titlerow">
           {title}
@@ -126,6 +128,7 @@ export default function AppShell({ ix, route, go }: { ix: LoadedIndex; route: Ro
         </div>
       )}
       <nav className="tabbar" aria-label="App">
+        <HomeButton variant="tab" />
         <a className={view === 'lookup' ? 'on' : ''} href={href('lookup')} data-v="lookup"><IconLookup />Lookup</a>
         <a className={view === 'lineage' ? 'on' : ''} href={href('lineage')} data-v="lineage"><IconLineage />Lineage</a>
         <a className={view === 'copy' ? 'on' : ''} href={href('copy')} data-v="copy"><IconCopies />Copies</a>

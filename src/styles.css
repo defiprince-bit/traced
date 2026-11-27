@@ -532,6 +532,25 @@ html.static .tt tbody tr,html.static .leaf{opacity:1;animation:none}
 .scan{position:relative;height:200px;overflow:hidden;border:1px solid var(--hairline);background-image:radial-gradient(circle at 1px 1px,rgba(242,244,239,.06) 1px,transparent 1.5px);background-size:24px 24px}
 .scan::after{content:"";position:absolute;top:0;bottom:0;left:0;width:160px;background:linear-gradient(90deg,transparent,rgba(200,255,106,.16),transparent);animation:scan 1.6s var(--ease-trace) infinite}
 @keyframes scan{from{transform:translateX(-160px)}to{transform:translateX(1400px)}}
+
+/* shared loading spinner */
+.spinner{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:14px}
+.spinner-page{display:flex;min-height:40vh;width:100%;padding:40px}
+.spinner-wrap{display:block;flex:none;animation:spin-ring .9s linear infinite}
+.spinner-ring{display:block;overflow:visible}
+.spinner-track{stroke:rgba(200,255,106,.18);stroke-width:1.5}
+.spinner-arc{stroke:var(--lume);stroke-width:1.75;stroke-linecap:round;stroke-dasharray:25 75.4}
+@keyframes spin-ring{to{transform:rotate(360deg)}}
+@keyframes spinner-pulse{50%{opacity:.35}}
+.spinner-label{margin:0;font:500 var(--text-2xs)/1.2 var(--font-mono);letter-spacing:var(--track-label);text-transform:uppercase;color:var(--fg-3)}
+
+/* home button */
+.home-btn-bar{display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 10px;border:1px solid var(--hairline);border-radius:var(--r-md);color:var(--fg-2);text-decoration:none;font:500 var(--text-xs)/1 var(--font-body)}
+.home-btn-bar:hover{color:var(--fg);background:var(--raised)}
+.home-btn-bar svg{width:14px;height:14px}
+.crumb-home{display:inline-flex;align-items:center;gap:6px;color:inherit;text-decoration:none}
+.crumb-home:hover{color:var(--fg)}
+
 /* mobile list lineage */
 .mlist{display:none}
 .fgrp.mob{display:none}
@@ -545,7 +564,7 @@ html.static .tt tbody tr,html.static .leaf{opacity:1;animation:none}
  .side{display:none}
  .mtop{display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:20;height:56px;padding:0 16px;background:rgba(11,11,11,.8);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--hairline)}
  .mtop .ro{margin-left:auto;display:flex;align-items:center;gap:6px;font:500 var(--text-2xs)/1 var(--font-mono);letter-spacing:var(--track-label);text-transform:uppercase;color:var(--fg-3)}.mtop .ro i{width:6px;height:6px;background:var(--lume)}
- .tabbar{display:grid;grid-template-columns:repeat(4,1fr);position:fixed;left:0;right:0;bottom:0;z-index:30;height:68px;padding:6px 8px 10px;background:var(--panel);border-top:1px solid var(--hairline)}
+ .tabbar{display:grid;grid-template-columns:repeat(5,1fr);position:fixed;left:0;right:0;bottom:0;z-index:30;height:68px;padding:6px 8px 10px;background:var(--panel);border-top:1px solid var(--hairline)}
  .tabbar a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;color:var(--fg-3);text-decoration:none;font-size:var(--text-2xs)}
  .tabbar a svg{width:18px;height:18px}.tabbar a.on{color:var(--lume)}
  .main{padding:12px 12px 24px;gap:12px}
@@ -698,3 +717,9 @@ table.cov{width:100%;border-collapse:collapse;font-size:var(--text-sm)}
   .demo-grid{grid-template-columns:1fr}
   .demo-card{min-height:0}
 }
+
+/* spinner: prefer a slow pulse when motion is reduced or frozen for shots */
+@media (prefers-reduced-motion:reduce){
+  .spinner-wrap{animation:spinner-pulse 1.8s ease-in-out infinite!important}
+}
+html.static .spinner-wrap{animation:spinner-pulse 1.8s ease-in-out infinite}

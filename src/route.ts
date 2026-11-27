@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react';
 
 export const CEREBR = '0xb04eb79d1a5eecaabaaff7b77d7c27578ee693ff';
 
+/** Landing hash. Clears lookup state and is not an app route. */
+export const HOME_HASH = '#top';
+
 export type AppView = 'lookup' | 'lineage' | 'copy' | 'replay';
 
 export interface Route {
